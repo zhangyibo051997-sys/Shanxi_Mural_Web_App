@@ -15,6 +15,7 @@ const zh = {
   "cover.start": "开始探索",
   "cover.startHint": "START EXPLORING",
   "cover.intro": "从一个人物开始，走进壁画中的故事。",
+  "cover.lead": "收集壁画中的人物贴纸，找到它们原本所在的画面，解锁明信片，并继续了解壁画背后的故事。",
 
   "nav.temples": "寺庙",
   "nav.stories": "壁画故事",
@@ -287,6 +288,7 @@ const en: Record<MessageKey, string> = {
   "cover.start": "Start exploring",
   "cover.startHint": "START EXPLORING",
   "cover.intro": "Begin with a figure and enter the stories painted on temple walls.",
+  "cover.lead": "Collect figure stickers from the murals, find the scenes they belong to, unlock postcards, and keep exploring the stories behind the paintings.",
 
   "nav.temples": "Temples",
   "nav.stories": "Mural stories",
@@ -562,6 +564,7 @@ const it: Record<MessageKey, string> = {
   "cover.start": "Inizia l’esplorazione",
   "cover.startHint": "INIZIA",
   "cover.intro": "Parti da una figura ed entra nelle storie dipinte sulle pareti dei templi.",
+  "cover.lead": "Raccogli le figurine dei personaggi dagli affreschi, ritrova le scene da cui provengono, sblocca le cartoline e continua a scoprire le storie dietro i dipinti.",
 
   "nav.temples": "Templi",
   "nav.stories": "Storie degli affreschi",

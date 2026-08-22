@@ -94,6 +94,17 @@ export default function MuralHomepage() {
   );
   const postcardOfferedRef = useRef(false);
   const pendingFocusRef = useRef<{ x: number; y: number } | null>(null);
+  const openedFromQueryRef = useRef(false);
+
+  useEffect(() => {
+    if (openedFromQueryRef.current) return;
+    const view = new URLSearchParams(window.location.search).get("view");
+    if (view === "map") {
+      openedFromQueryRef.current = true;
+      setPhase("map");
+      setMapFocusTempleId(null);
+    }
+  }, []);
 
   const { captureFlipState, animateClose } = useCardTransition();
 

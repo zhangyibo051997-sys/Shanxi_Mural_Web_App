@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import SiteBrand from "@/components/SiteBrand";
+import NavMark from "@/components/NavMark";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 
 export default function ColoringSiteNav() {
@@ -11,7 +11,7 @@ export default function ColoringSiteNav() {
     <>
       <header className="pointer-events-none fixed left-0 top-0 z-40 p-4 md:p-5">
         <div className="pointer-events-auto">
-          <SiteBrand compact href="/" />
+          <NavMark href="/" />
         </div>
       </header>
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import SiteBrand from "./SiteBrand";
+import NavMark from "./NavMark";
 import BrandHeader from "./mural/BrandHeader";
 import CanvasInstruction from "./mural/CanvasInstruction";
 import StarCounter from "./StarCounter";
@@ -49,14 +49,8 @@ export default function FixedNavigation({
           >
             {variant === "cover" ? (
               <BrandHeader mode="cover" onLogoClick={onLogoClick} />
-            ) : instructionKey ? (
-              <BrandHeader mode="home" onLogoClick={onLogoClick} />
             ) : (
-              <SiteBrand
-                compact={compact}
-                href={onLogoClick ? null : "/"}
-                onClick={onLogoClick}
-              />
+              <NavMark onClick={onLogoClick} href="/" />
             )}
           </div>
 
@@ -118,7 +112,7 @@ export default function FixedNavigation({
                     return (
                       <li key={item.id}>
                         <Link
-                          href="/"
+                          href="/?view=map"
                           className="whitespace-nowrap font-sans text-[11px] tracking-wide text-ink/60 transition-colors hover:text-ink focus:outline-none focus-visible:underline md:text-xs"
                         >
                           {label}
