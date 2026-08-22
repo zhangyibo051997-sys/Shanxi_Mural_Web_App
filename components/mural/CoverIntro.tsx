@@ -19,7 +19,7 @@ export default function CoverIntro({
   chromeRef,
 }: CoverIntroProps) {
   const { locale, t } = useLocale();
-  const isZh = locale === "zh";
+  const titleLang = locale === "zh" ? "zh-CN" : locale === "it" ? "it" : "en";
 
   return (
     <div
@@ -28,28 +28,35 @@ export default function CoverIntro({
       style={transitioning ? undefined : { opacity: visible ? 1 : 0 }}
       aria-hidden={!visible}
     >
-      <div className="relative z-10 flex w-full max-w-2xl translate-y-2 flex-col items-center px-6 text-center md:translate-y-3">
+      <div className="relative z-10 flex w-full max-w-[680px] flex-col items-center px-4 text-center md:px-6">
         <h1
-          className="font-sans text-[2.15rem] font-bold leading-none tracking-[0.12em] md:text-[3.15rem] lg:text-[3.45rem]"
-          aria-label={isZh ? "晋壁画博物馆" : "JIN MUSEUM"}
+          lang={titleLang}
+          className="type-display max-w-[680px]"
+          aria-label={t("cover.title")}
         >
-          {isZh ? (
+          {locale === "zh" ? (
             <>
               <span className="text-cinnabar">晋壁画</span>
-              <span className="text-stone">博物馆</span>
+              <span>博物馆</span>
             </>
           ) : (
             <>
               <span className="text-cinnabar">JIN</span>
-              <span className="ml-[0.28em] text-stone">MUSEUM</span>
+              <span className="ml-[0.28em]">MUSEUM</span>
             </>
           )}
         </h1>
-        <p className="mt-5 max-w-[28rem] font-serif text-[13px] leading-relaxed text-ink/60 md:mt-6 md:max-w-[32rem] md:text-sm">
+        <p
+          lang="en"
+          className="type-meta-en mt-3 text-[rgb(33_51_56_/_70%)]"
+        >
+          {t("cover.subtitle")}
+        </p>
+        <p lang={titleLang} className="type-body mt-4 max-w-[32rem] text-ink/80">
           {t("cover.lead")}
         </p>
         <div
-          className={`mt-6 md:mt-7 ${visible ? "pointer-events-auto" : "pointer-events-none"}`}
+          className={`mt-6 ${visible ? "pointer-events-auto" : "pointer-events-none"}`}
         >
           <StartExploreButton
             onClick={onStart}

@@ -23,12 +23,12 @@ export default function ScorePanel({ score }: ScorePanelProps) {
       </div>
 
       {lowCompletion && (
-        <p className="mt-4 font-sans text-[11px] text-ochre">
+        <p className="type-caption mt-4 text-gold">
           {t("color.scoreNote")}
         </p>
       )}
 
-      <p className="mt-4 font-serif text-sm leading-relaxed text-ink/75">
+      <p className="type-body mt-4 text-ink/80">
         {t(
           score.colorSimilarity >= 75
             ? "color.evalHigh"
@@ -39,7 +39,7 @@ export default function ScorePanel({ score }: ScorePanelProps) {
       </p>
 
       {score.bestRegion && (
-        <p className="mt-3 font-sans text-[11px] text-stone">
+        <p className="type-caption mt-3 text-ink/70">
           {t("color.best", {
             name: locColoringRegion(
               locale,
@@ -51,7 +51,7 @@ export default function ScorePanel({ score }: ScorePanelProps) {
         </p>
       )}
       {score.worstRegion && score.worstRegion.id !== score.bestRegion?.id && (
-        <p className="font-sans text-[11px] text-stone">
+        <p className="type-caption text-ink/70">
           {t("color.worst", {
             name: locColoringRegion(
               locale,
@@ -63,7 +63,7 @@ export default function ScorePanel({ score }: ScorePanelProps) {
         </p>
       )}
 
-      <p className="mt-4 border-t border-ink/10 pt-4 font-sans text-[10px] leading-relaxed text-stone">
+      <p className="type-caption mt-4 border-t border-[var(--color-border-subtle)] pt-4 text-ink/70">
         {t("color.scoreFoot")}
       </p>
     </div>
@@ -83,7 +83,7 @@ function Stat({
 }) {
   return (
     <div>
-      <p className="font-sans text-[10px] tracking-wide text-stone">{label}</p>
+      <p className="type-meta text-ink/70">{label}</p>
       <p
         className={`mt-1 font-serif text-2xl ${
           highlight ? "text-cinnabar" : "text-ink"

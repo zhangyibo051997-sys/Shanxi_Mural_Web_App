@@ -248,7 +248,7 @@ export default function ColoringGamePage() {
       <div className="coloring-root coloring-root--locked relative min-h-svh bg-parchment">
         <TextureBackground />
         <FixedNavigation instructionKey="color.headerHint" />
-        <p className="pt-32 text-center font-serif text-sm text-stone">
+        <p className="type-body pt-32 text-center text-ink/70">
           {t("color.loading")}
         </p>
       </div>
@@ -298,13 +298,13 @@ export default function ColoringGamePage() {
 
           <section className="relative flex min-h-0 flex-col lg:px-6">
             {stage === "comparison" && (
-              <h2 className="mb-3 text-center font-sans text-[10px] tracking-[0.22em] text-stone">
+              <h2 className="type-section mb-6 text-center">
                 {t("color.yourColoring")}
               </h2>
             )}
             <div
               data-coloring-canvas
-              className={`relative border border-ink/10 ${
+              className={`relative rounded-[2px] border border-[var(--color-border)] bg-rice ${
                 isColoring
                   ? "min-h-[46svh] flex-1 md:min-h-0"
                   : "h-[min(48svh,420px)] min-h-[240px] w-full shrink-0"
@@ -349,7 +349,7 @@ export default function ColoringGamePage() {
                 <button
                   type="button"
                   onClick={handleEditAgain}
-                  className="mt-2 min-h-11 px-3 font-sans text-[11px] tracking-wide text-stone hover:text-ink"
+                  className="btn-tertiary mt-2"
                 >
                   {t("color.editAgain")}
                 </button>
@@ -359,10 +359,10 @@ export default function ColoringGamePage() {
 
           <section
             data-coloring-palette
-            className={`flex min-h-0 flex-col items-center overflow-visible border-ink/10 ${
+            className={`flex min-h-0 flex-col items-center overflow-visible border-[rgb(33_51_56_/_18%)] ${
               isColoring
-                ? "justify-start overflow-y-auto md:border-l md:pl-6 md:pr-1"
-                : "justify-start md:col-span-2 lg:col-span-1 lg:border-l lg:px-5"
+                ? "justify-start overflow-y-auto md:border-l md:p-6"
+                : "justify-start md:col-span-2 lg:col-span-1 lg:border-l lg:px-6"
             } ${isColoring ? "hidden md:flex" : ""}`}
           >
             {isColoring && (
@@ -377,7 +377,7 @@ export default function ColoringGamePage() {
               />
             )}
             {stage === "comparison" && (
-              <h2 className="mb-3 font-sans text-[10px] tracking-[0.22em] text-stone">
+              <h2 className="type-section mb-6">
                 {t("color.yourPalette")}
               </h2>
             )}
@@ -390,7 +390,7 @@ export default function ColoringGamePage() {
               onSelect={(color) => setSelectedColorId(color.id)}
             />
             {isColoring && (
-              <label className="mt-4 flex min-h-11 items-center gap-2 font-sans text-[11px] tracking-wide text-stone">
+              <label className="type-ui mt-4 flex min-h-11 items-center gap-2 text-ink/70">
                 <input
                   type="color"
                   value={selectedColor}

@@ -171,7 +171,7 @@ export default function MuralMatchingExperience({
     );
     return () => {
       tween.kill();
-      gsap.set(options, { opacity: 1, clearProps: "transform" });
+      gsap.set(options, { opacity: 1, clearProps: "opacity" });
     };
   }, [initialized, reducedMotion]);
 
@@ -342,7 +342,7 @@ export default function MuralMatchingExperience({
   return (
     <div
       ref={rootRef}
-      className="fixed inset-0 z-10 overflow-hidden"
+      className="fixed inset-0 z-10 overflow-hidden bg-parchment"
       data-matching-stage={stage}
     >
       <SelectedFigureCard

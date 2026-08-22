@@ -14,14 +14,14 @@ export async function exportShareCard(options: {
   canvas.height = H;
   const ctx = canvas.getContext("2d")!;
 
-  ctx.fillStyle = "#D8D0C2";
+  ctx.fillStyle = "#D2CABC";
   ctx.fillRect(0, 0, W, H);
 
-  ctx.fillStyle = "#26241F";
+  ctx.fillStyle = "#213338";
   ctx.font = "600 42px 'Noto Serif SC', serif";
   ctx.fillText(coloringArtwork.pageTitle, 64, 100);
-  ctx.font = "400 22px Inter, sans-serif";
-  ctx.fillStyle = "#3E6264";
+  ctx.font = "500 22px 'IBM Plex Sans', sans-serif";
+  ctx.fillStyle = "#213338";
   ctx.fillText(coloringArtwork.titleEn, 64, 140);
 
   const artW = W - 128;
@@ -29,7 +29,7 @@ export async function exportShareCard(options: {
   const artX = 64;
   const artY = 180;
 
-  ctx.fillStyle = "#EEE8DC";
+  ctx.fillStyle = "#E2DDD3";
   ctx.fillRect(artX, artY, artW, artH);
 
   const aspect = options.paintCanvas.width / options.paintCanvas.height;
@@ -47,29 +47,29 @@ export async function exportShareCard(options: {
   ctx.drawImage(options.lineCanvas, dx, dy, dw, dh);
   ctx.globalCompositeOperation = "source-over";
 
-  ctx.strokeStyle = "#26241F33";
+  ctx.strokeStyle = "rgb(33 51 56 / 20%)";
   ctx.strokeRect(artX, artY, artW, artH);
 
-  ctx.fillStyle = "#26241F";
+  ctx.fillStyle = "#213338";
   ctx.font = "400 28px 'Noto Serif SC', serif";
   ctx.fillText(coloringArtwork.title, 64, 1060);
-  ctx.font = "400 20px Inter, sans-serif";
-  ctx.fillStyle = "#3E6264";
+  ctx.font = "500 20px 'IBM Plex Sans', sans-serif";
+  ctx.fillStyle = "#B88C57";
   ctx.fillText(coloringArtwork.location, 64, 1100);
 
-  ctx.fillStyle = "#8B352E";
-  ctx.font = "600 48px Inter, sans-serif";
+  ctx.fillStyle = "#A83826";
+  ctx.font = "600 48px 'IBM Plex Sans', sans-serif";
   ctx.fillText(`综合评分 ${options.score}`, 64, 1180);
-  ctx.font = "400 18px Inter, sans-serif";
-  ctx.fillStyle = "#3E6264";
+  ctx.font = "500 18px 'IBM Plex Sans', sans-serif";
+  ctx.fillStyle = "#213338";
   ctx.fillText(
     `色彩相似度 ${options.colorSimilarity} · 完成度 ${options.completion}%`,
     64,
     1220
   );
 
-  ctx.fillStyle = "#26241F88";
-  ctx.font="400 16px Inter, sans-serif";
+  ctx.fillStyle = "rgb(33 51 56 / 68%)";
+  ctx.font = "500 16px 'IBM Plex Sans', sans-serif";
   ctx.fillText("看见壁上山西 · 山西寺观壁画数字文化平台", 64, 1280);
   ctx.fillText(new Date().toLocaleDateString("zh-CN"), 64, 1310);
 

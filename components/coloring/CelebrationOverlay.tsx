@@ -8,7 +8,7 @@ interface CelebrationOverlayProps {
   active: boolean;
 }
 
-const COLORS = ["#8B352E", "#A2643E", "#3E6264", "#167F91", "#C4A066"];
+const COLORS = ["#A83826", "#B88C57", "#213338", "#D2CABC", "#B88C57"];
 
 export default function CelebrationOverlay({ active }: CelebrationOverlayProps) {
   const containerRef = useRef<HTMLDivElement>(null);

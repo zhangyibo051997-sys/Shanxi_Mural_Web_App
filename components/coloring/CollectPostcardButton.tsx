@@ -17,7 +17,7 @@ export default function CollectPostcardButton({
       type="button"
       onClick={onClick}
       disabled={collected}
-      className="mx-auto mt-4 flex min-h-12 min-w-[240px] items-center justify-center gap-2 bg-cinnabar px-6 font-sans text-[11px] tracking-[0.12em] text-rice shadow-[0_4px_12px_rgba(139,53,46,0.2)] transition-opacity hover:opacity-95 disabled:cursor-default disabled:opacity-100"
+      className="btn-primary mx-auto mt-4 h-12 w-[248px] max-w-full disabled:border-cinnabar disabled:bg-cinnabar disabled:text-on-accent disabled:opacity-100"
     >
       {collected ? t("color.collected") : t("color.collectAs")}
     </button>

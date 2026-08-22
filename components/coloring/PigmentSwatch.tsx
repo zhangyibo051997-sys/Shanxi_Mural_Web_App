@@ -32,7 +32,7 @@ export default function PigmentSwatch({
     >
       <span
         className={`block h-8 w-8 rounded-full md:h-9 md:w-9 ${
-          selected ? "ring-1 ring-offset-2 ring-rice ring-offset-[#3E6264]" : ""
+          selected ? "ring-2 ring-offset-2 ring-on-accent ring-offset-ink" : ""
         }`}
         style={{
           backgroundColor: color.value,

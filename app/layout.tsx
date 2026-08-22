@@ -1,20 +1,40 @@
 import type { Metadata } from "next";
-import { Noto_Serif_SC, Inter } from "next/font/google";
+import {
+  IBM_Plex_Sans,
+  Literata,
+  Noto_Sans_SC,
+  Noto_Serif_SC,
+} from "next/font/google";
 import AppI18n from "@/components/i18n/AppI18n";
 import { HTML_LANG } from "@/lib/i18n/locales";
-import { getRequestLocale, localeMetadata } from "@/lib/i18n/requestLocale";
+import { localeMetadata, getRequestLocale } from "@/lib/i18n/requestLocale";
 import "./globals.css";
 
-const notoSerif = Noto_Serif_SC({
+const notoSans = Noto_Sans_SC({
   subsets: ["latin"],
-  weight: ["400", "600"],
-  variable: "--font-serif",
+  weight: ["400", "500", "600"],
+  variable: "--font-ui-cn",
   display: "swap",
 });
 
-const inter = Inter({
+const notoSerif = Noto_Serif_SC({
   subsets: ["latin"],
-  variable: "--font-sans",
+  weight: ["400", "500", "600"],
+  variable: "--font-editorial-cn",
+  display: "swap",
+});
+
+const ibmPlex = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-ui-western",
+  display: "swap",
+});
+
+const literata = Literata({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-editorial-western",
   display: "swap",
 });
 
@@ -31,7 +51,7 @@ export default async function RootLayout({
   return (
     <html lang={HTML_LANG[locale]}>
       <body
-        className={`${notoSerif.variable} ${inter.variable} font-sans antialiased`}
+        className={`${notoSans.variable} ${notoSerif.variable} ${ibmPlex.variable} ${literata.variable} font-sans antialiased`}
       >
         <AppI18n initialLocale={locale}>{children}</AppI18n>
       </body>

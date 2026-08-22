@@ -16,7 +16,7 @@ export default function BrandHeader({ mode, onLogoClick }: BrandHeaderProps) {
     <button
       type="button"
       onClick={onLogoClick}
-      className="block shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar"
+      className="block shrink-0"
       aria-label={t("brand.backToCover")}
     >
       {mode === "cover" ? (
@@ -26,7 +26,7 @@ export default function BrandHeader({ mode, onLogoClick }: BrandHeaderProps) {
           alt={t("brand.logoAlt")}
           width={230}
           height={48}
-          className="h-11 w-auto max-w-[230px] object-contain object-left md:h-12"
+          className="h-9 w-auto max-w-[180px] object-contain object-left md:h-10"
         />
       ) : (
         // eslint-disable-next-line @next/next/no-img-element

@@ -50,6 +50,7 @@ export function useDraggableCanvas({
   const zoomRafRef = useRef<number | null>(null);
   const panTweenRef = useRef<gsap.core.Tween | null>(null);
   const hasDraggedRef = useRef(false);
+  const gestureActiveRef = useRef(false);
 
   const { applyEdgeResistance, clampPosition, clampForScale } =
     useCanvasBounds({
@@ -84,6 +85,7 @@ export function useDraggableCanvas({
         false
       );
       positionRef.current = initial;
+      dragStartRef.current = initial;
       setPosition(initial);
       setInitialized(true);
     }
@@ -165,18 +167,22 @@ export function useDraggableCanvas({
         panTweenRef.current?.kill();
         setIsDragging(true);
         hasDraggedRef.current = false;
+        gestureActiveRef.current = true;
         dragStartRef.current = { ...positionRef.current };
       }
 
-      if (Math.hypot(mx, my) > 3) {
+      if (!gestureActiveRef.current) return;
+
+      const moved = Math.hypot(mx, my);
+      if (moved > 3) {
         hasDraggedRef.current = true;
+        applyPosition(dragStartRef.current.x + mx, dragStartRef.current.y + my);
       }
 
-      applyPosition(dragStartRef.current.x + mx, dragStartRef.current.y + my);
-
       if (last) {
+        gestureActiveRef.current = false;
         setIsDragging(false);
-        if (Math.hypot(mx, my) > 5 && !reducedMotion) {
+        if (moved > 5 && !reducedMotion) {
           velocityRef.current = {
             x: vx * dirX * 18,
             y: vy * dirY * 18,

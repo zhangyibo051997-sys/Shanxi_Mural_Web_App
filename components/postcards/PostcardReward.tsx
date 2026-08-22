@@ -32,13 +32,13 @@ export default function PostcardReward({
         aria-modal="true"
         aria-label={t("postcard.congratsAria")}
         tabIndex={-1}
-        className="relative w-full max-w-lg border border-stone/25 bg-rice px-6 py-7 text-center shadow-[0_20px_55px_rgba(38,36,31,0.22)] focus:outline-none"
+        className="surface-card relative w-[calc(100vw-32px)] max-w-[400px] rounded p-8 text-center shadow-overlay"
       >
-        <p className="font-sans text-[10px] tracking-[0.24em] text-cinnabar/80">
+        <p className="type-meta text-gold">
           {t("postcard.rewardEyebrow")}
         </p>
-        <h2 className="mt-2 font-serif text-3xl text-stone">{t("postcard.congrats")}</h2>
-        <p className="mt-2 font-serif text-sm text-ink/65">
+        <h2 className="type-page mt-2">{t("postcard.congrats")}</h2>
+        <p className="type-body mt-4 text-ink">
           {t("postcard.congratsBody")}
         </p>
 
@@ -50,7 +50,7 @@ export default function PostcardReward({
             className="h-auto w-full object-contain"
           />
         </div>
-        <p className="mt-3 font-serif text-base text-stone">
+        <p className="type-card mt-3">
           {locCollectedTitle(locale, postcard.id, postcard.title)}
         </p>
 
@@ -59,7 +59,7 @@ export default function PostcardReward({
         <button
           type="button"
           onClick={onCollect}
-          className="mt-6 min-h-11 w-full rounded-full bg-cinnabar px-6 py-3 text-rice transition-colors hover:bg-[#7a2e28] focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar focus-visible:ring-offset-2 focus-visible:ring-offset-rice"
+          className="btn-primary mt-6 w-full"
         >
           {alreadyCollected ? t("postcard.continue") : t("postcard.collect")}
         </button>

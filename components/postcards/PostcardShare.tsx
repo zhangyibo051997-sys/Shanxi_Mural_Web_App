@@ -64,7 +64,7 @@ export default function PostcardShare({
         <button
           type="button"
           onClick={shareNative}
-          className="min-h-9 rounded-full border border-stone/25 px-3 py-1.5 font-sans text-[10px] tracking-[0.12em] text-stone hover:border-stone/50"
+          className="btn-secondary min-h-11 px-3"
         >
           {t("postcard.shareNative")}
         </button>
@@ -73,21 +73,21 @@ export default function PostcardShare({
         href={weiboHref}
         target="_blank"
         rel="noreferrer"
-        className="min-h-9 rounded-full border border-stone/25 px-3 py-1.5 font-sans text-[10px] tracking-[0.12em] text-stone hover:border-stone/50"
+        className="btn-secondary min-h-11 px-3"
       >
         {t("postcard.weibo")}
       </a>
       <button
         type="button"
         onClick={copyLink}
-        className="min-h-9 rounded-full border border-stone/25 px-3 py-1.5 font-sans text-[10px] tracking-[0.12em] text-stone hover:border-stone/50"
+        className="btn-secondary min-h-11 px-3"
       >
         {copied ? t("postcard.copied") : t("postcard.copy")}
       </button>
       <a
         href={postcard.src}
         download={postcard.fileName}
-        className="min-h-9 rounded-full border border-stone/25 px-3 py-1.5 font-sans text-[10px] tracking-[0.12em] text-stone hover:border-stone/50"
+        className="btn-secondary min-h-11 px-3"
       >
         {t("postcard.download")}
       </a>

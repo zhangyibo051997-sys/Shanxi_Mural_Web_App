@@ -23,9 +23,9 @@ export default function TextureBackground() {
         className="absolute inset-0 opacity-[0.06]"
         style={{
           backgroundImage: `
-            radial-gradient(ellipse at 20% 30%, rgba(38,36,31,0.15) 0%, transparent 50%),
-            radial-gradient(ellipse at 80% 70%, rgba(139,53,46,0.08) 0%, transparent 40%),
-            radial-gradient(ellipse at 50% 50%, rgba(62,98,100,0.05) 0%, transparent 60%)
+            radial-gradient(ellipse at 20% 30%, rgb(33 51 56 / 15%) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 70%, rgb(168 56 38 / 8%) 0%, transparent 40%),
+            radial-gradient(ellipse at 50% 50%, rgb(33 51 56 / 5%) 0%, transparent 60%)
           `,
         }}
       />
@@ -44,7 +44,7 @@ export default function TextureBackground() {
           >
             <path
               d="M10,50 Q40,30 80,55 T150,45 M30,120 Q60,100 90,130 T170,115"
-              stroke="#26241F"
+              stroke="#213338"
               strokeWidth="0.5"
               fill="none"
             />

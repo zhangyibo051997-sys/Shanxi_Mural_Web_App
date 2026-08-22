@@ -7,7 +7,7 @@ interface DragIndicatorProps {
 }
 
 export default function DragIndicator({ visible }: DragIndicatorProps) {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
 
   if (!visible) return null;
 
@@ -16,10 +16,15 @@ export default function DragIndicator({ visible }: DragIndicatorProps) {
       className="pointer-events-none fixed bottom-5 left-5 z-40 md:bottom-6 md:left-6"
       aria-hidden="true"
     >
-      <p className="font-sans text-[9px] tracking-[0.3em] text-ink/35">
+      <p lang="en" className="type-meta-en text-ink/60">
         {t("home.dragHint")}
       </p>
-      <p className="mt-0.5 font-sans text-[10px] text-ink/45">{t("home.drag")}</p>
+      <p
+        lang={locale === "zh" ? "zh-CN" : locale === "it" ? "it" : "en"}
+        className="type-ui mt-1 text-ink/60"
+      >
+        {t("home.drag")}
+      </p>
     </div>
   );
 }

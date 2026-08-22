@@ -26,10 +26,10 @@ export default function OriginalMuralPanel({
       data-coloring-original
       className="flex flex-col items-center coloring-original-enter"
     >
-      <h2 className="shrink-0 font-sans text-[10px] tracking-[0.22em] text-stone">
+      <h2 className="type-section shrink-0">
         {t("color.original")}
       </h2>
-      <div className="relative mt-3 aspect-[3/4] w-full max-h-[min(48svh,380px)] overflow-hidden border border-ink/10 bg-[#E9E2D4]">
+      <div className="relative mt-6 aspect-[3/4] w-full max-h-[min(48svh,380px)] overflow-hidden rounded-[2px] border border-[var(--color-border)] bg-rice">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={originalUrl}

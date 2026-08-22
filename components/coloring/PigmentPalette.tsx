@@ -62,7 +62,7 @@ export default function PigmentPalette({
           ))}
         </div>
         {selected && interactive && (
-          <p className="mt-1 text-center font-sans text-[10px] text-stone">
+          <p className="type-meta mt-2 text-center text-ink/70">
             {selected.nameZh} · {selected.nameEn}
           </p>
         )}
@@ -75,7 +75,7 @@ export default function PigmentPalette({
       <div className="relative w-full max-w-[360px]">
         <svg
           viewBox="0 0 360 250"
-          className="h-auto w-full drop-shadow-[0_10px_18px_rgba(38,36,31,0.18)]"
+          className="h-auto w-full"
           aria-hidden="true"
         >
           <defs>
@@ -94,11 +94,11 @@ export default function PigmentPalette({
           </defs>
           <path
             d="M48 46C24 88 32 176 92 214C154 248 268 236 318 176C352 128 338 58 278 38C208 14 84 16 48 46Z"
-            fill="#3E6264"
+            fill="#213338"
           />
           <path
             d="M48 46C24 88 32 176 92 214C154 248 268 236 318 176C352 128 338 58 278 38C208 14 84 16 48 46Z"
-            fill="#2f4c4e"
+            fill="#213338"
             opacity="0.35"
           />
           <path
@@ -134,7 +134,7 @@ export default function PigmentPalette({
       </div>
 
       {selected && interactive && (
-        <p className="mt-3 font-sans text-[11px] tracking-wide text-stone">
+        <p className="type-meta mt-3 text-ink/70">
           {selected.nameZh} · {selected.nameEn}
         </p>
       )}
@@ -153,7 +153,7 @@ export default function PigmentPalette({
                       : 1,
                 }}
               />
-              <span className="font-sans text-[10px] text-ink/80">
+              <span className="type-meta text-ink/80">
                 {color.nameZh}{" "}
                 <span className="text-stone">{color.nameEn}</span>
               </span>

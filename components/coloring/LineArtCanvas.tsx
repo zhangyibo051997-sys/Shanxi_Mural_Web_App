@@ -286,7 +286,7 @@ const LineArtCanvas = forwardRef<LineArtCanvasHandle, LineArtCanvasProps>(
           canvas.height = paint.height;
           const ctx = canvas.getContext("2d");
           if (!ctx) throw new Error("无法创建画布");
-          ctx.fillStyle = "#EEE8DC";
+          ctx.fillStyle = "#E2DDD3";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(paint, 0, 0);
           ctx.save();

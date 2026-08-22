@@ -26,14 +26,14 @@ export default function ConvergencePaths({
           refY="3.5"
           orient="auto"
         >
-          <path d="M0 0.6 L6.2 3.5 L0 6.4 Z" fill="#3E6264" />
+          <path d="M0 0.6 L6.2 3.5 L0 6.4 Z" fill="rgb(33 51 56 / 20%)" />
         </marker>
       </defs>
 
       <g
         fill="none"
-        stroke="#3E6264"
-        strokeWidth="0.85"
+        stroke="rgb(33 51 56 / 10%)"
+        strokeWidth="1"
         strokeDasharray="1.8 8.5"
         strokeLinecap="round"
       >
@@ -44,7 +44,7 @@ export default function ConvergencePaths({
         <ellipse cx="720" cy="412" rx="728" ry="468" />
       </g>
 
-      <g fill="none" stroke="#3E6264" strokeWidth="0.9" strokeLinecap="round">
+      <g fill="none" stroke="rgb(33 51 56 / 10%)" strokeWidth="1" strokeLinecap="round">
         <path
           d="M 1056 330 A 338 226 0 0 1 1020 520"
           markerEnd="url(#orbit-arrow)"
@@ -59,7 +59,7 @@ export default function ConvergencePaths({
         />
       </g>
 
-      <g fill="#8B352E">
+      <g fill="#A83826">
         <circle cx="502" cy="412" r="2.2" opacity="0.8" />
         <circle cx="938" cy="412" r="2.2" opacity="0.8" />
         <circle cx="720" cy="186" r="2" opacity="0.72" />

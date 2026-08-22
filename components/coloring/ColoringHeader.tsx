@@ -7,12 +7,13 @@ type ColoringHeaderProps = {
 };
 
 export default function ColoringHeader({ stage }: ColoringHeaderProps) {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
   const isCompare = stage === "comparison";
+  const lang = locale === "zh" ? "zh-CN" : locale === "it" ? "it" : "en";
 
   return (
-    <div className="pointer-events-none relative z-10 flex flex-col items-center px-4 pt-16 text-center md:pt-[4.75rem]">
-      <h1 className="font-serif text-[1.65rem] tracking-wide text-ink md:text-3xl">
+    <div className="pointer-events-none relative z-10 flex flex-col items-center px-4 pt-20 text-center md:pt-[5.25rem]">
+      <h1 lang={lang} className="type-page">
         {isCompare ? t("color.compareHeader") : t("color.header")}
       </h1>
     </div>

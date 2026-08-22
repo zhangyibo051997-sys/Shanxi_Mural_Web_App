@@ -245,7 +245,7 @@ function TempleCardContent({
   const copy = locTemple(locale, temple);
 
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-sm bg-rice/60 shadow-[0_2px_12px_rgba(38,36,31,0.08)]">
+    <div className="group flex h-full flex-col overflow-hidden rounded-[2px] border border-[rgb(33_51_56_/_18%)] bg-rice shadow-none transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1 hover:border-[rgb(33_51_56_/_35%)] hover:shadow-hover">
       <div className="grid__itemPicture relative flex-1 overflow-hidden">
         <Image
           src={copy.image}
@@ -259,12 +259,12 @@ function TempleCardContent({
         />
       </div>
       <div className="px-3 py-2.5">
-        <h3 className="font-serif text-base text-ink">{copy.name}</h3>
-        <p className="mt-0.5 font-sans text-[10px] tracking-wider text-stone">
+        <h3 className="type-caption text-ink">{copy.name}</h3>
+        <p className="type-meta mt-1 text-gold">
           {copy.region} · {copy.era}
         </p>
         {(isHovered || priority) && (
-          <p className="mt-1.5 font-serif text-[11px] leading-snug text-ink/65">
+          <p className="type-caption mt-2 line-clamp-2 text-ink/70">
             {copy.tagline}
           </p>
         )}
@@ -291,8 +291,8 @@ function ExploreMuralCardContent({
   const meta = [hall, period].filter(Boolean).join(" · ");
 
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-md bg-rice/50 shadow-[0_1px_8px_rgba(38,36,31,0.06)]">
-      <div className="relative min-h-0 flex-1 overflow-hidden rounded-md bg-[#C5BDB1]">
+    <div className="group flex h-full flex-col overflow-hidden rounded-[2px] border border-[rgb(33_51_56_/_18%)] bg-rice shadow-none transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1 hover:border-[rgb(33_51_56_/_35%)] hover:shadow-hover">
+      <div className="relative min-h-0 flex-1 overflow-hidden bg-rice">
         {image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -305,15 +305,11 @@ function ExploreMuralCardContent({
         ) : null}
       </div>
       <div className="shrink-0 px-3 py-2.5">
-        <p
-          className={`font-serif text-[12px] leading-snug text-ink/80 transition-colors ${
-            isHovered ? "text-ink" : ""
-          }`}
-        >
+        <p className={`type-caption line-clamp-2 ${isHovered ? "text-ink" : "text-ink"}`}>
           {title}
         </p>
         {meta ? (
-          <p className="mt-1 font-sans text-[10px] tracking-wide text-stone/60">
+          <p className="type-meta mt-1 text-gold">
             {meta}
           </p>
         ) : null}
@@ -336,23 +332,23 @@ function StoryCardContent({
   priority: boolean;
 }) {
   return (
-    <div className="group flex h-full flex-col overflow-hidden rounded-md bg-rice/50 shadow-[0_1px_8px_rgba(38,36,31,0.06)]">
-      <div className="relative min-h-0 flex-1 overflow-hidden rounded-md bg-[#C8BFB0]">
+    <div className="group flex h-full flex-col overflow-hidden rounded-[2px] border border-[rgb(33_51_56_/_18%)] bg-rice shadow-none transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1 hover:border-[rgb(33_51_56_/_35%)] hover:shadow-hover">
+      <div className="relative min-h-0 flex-1 overflow-hidden bg-rice">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={story.image}
           alt={imageAlt}
           draggable={false}
           fetchPriority={priority ? "high" : "auto"}
-          className="pointer-events-none absolute inset-0 h-full w-full select-none rounded-md object-cover group-hover:scale-[1.03] motion-safe:transition-transform motion-safe:duration-[400ms] motion-safe:ease-out"
+          className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover group-hover:scale-[1.03] motion-safe:transition-transform motion-safe:duration-[400ms] motion-safe:ease-out"
           style={{ WebkitUserDrag: "none" } as React.CSSProperties}
         />
       </div>
       <div className="flex-1 flex items-center justify-start px-3 py-2">
         <p
-          className={`font-serif text-[12px] leading-[1.4] text-ink/80 transition-colors ${
-            isHovered ? "text-ink font-semibold" : ""
-          } line-clamp-4 text-left`}
+          className={`type-caption line-clamp-4 text-left ${
+            isHovered ? "text-ink" : "text-ink/80"
+          }`}
         >
           {title}
         </p>
@@ -384,7 +380,7 @@ function CanvasAnnotationCard({
       }}
       aria-hidden="true"
     >
-      <p className="font-sans text-[11px] tracking-wide text-ink/50">{card.text}</p>
+      <p className="type-caption text-ink/50">{card.text}</p>
     </div>
   );
 }

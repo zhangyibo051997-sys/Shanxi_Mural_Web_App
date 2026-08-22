@@ -68,7 +68,7 @@ export default function DraggableCanvas({
           y1={from.y}
           x2={to.x}
           y2={to.y}
-          stroke="#26241F"
+          stroke="#213338"
           strokeWidth={0.5}
           opacity={0.08}
           strokeDasharray="6 8"

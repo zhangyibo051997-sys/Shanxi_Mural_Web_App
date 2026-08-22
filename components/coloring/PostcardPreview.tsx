@@ -46,16 +46,24 @@ export default function PostcardPreview({
         role="dialog"
         aria-modal="true"
         aria-labelledby="postcard-preview-title"
-        className="max-h-[90svh] w-full max-w-md overflow-y-auto border border-ink/10 bg-rice p-5 shadow-[0_10px_28px_rgba(38,36,31,0.2)]"
+        className="surface-card relative max-h-[90svh] w-[calc(100vw-32px)] max-w-[400px] overflow-y-auto rounded p-8 shadow-overlay"
         onClick={(event) => event.stopPropagation()}
       >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="关闭"
+          className="btn-icon absolute right-3 top-3 border-0 bg-transparent text-ink/60 hover:text-cinnabar"
+        >
+          ×
+        </button>
         <h2
           id="postcard-preview-title"
-          className="font-serif text-lg text-ink"
+          className="type-page"
         >
           收藏明信片
         </h2>
-        <p className="mt-1 font-sans text-xs text-stone">
+        <p className="type-meta mt-2 text-gold">
           {title} · {stars} / 5
         </p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -69,14 +77,14 @@ export default function PostcardPreview({
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="min-h-11 px-4 font-sans text-xs text-stone hover:text-ink"
+            className="btn-secondary"
           >
             关闭
           </button>
           <button
             type="button"
             onClick={onDownload}
-            className="min-h-11 bg-cinnabar px-4 font-sans text-xs tracking-wide text-rice"
+            className="btn-primary"
           >
             下载 PNG
           </button>

@@ -47,10 +47,10 @@ export async function exportColoringPostcard(options: {
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("无法创建明信片画布");
 
-  ctx.fillStyle = "#EEE8DC";
+  ctx.fillStyle = "#E2DDD3";
   ctx.fillRect(0, 0, POSTCARD_WIDTH, POSTCARD_HEIGHT);
 
-  ctx.fillStyle = "rgba(38, 36, 31, 0.04)";
+  ctx.fillStyle = "rgb(33 51 56 / 4%)";
   ctx.fillRect(48, 48, POSTCARD_WIDTH - 96, POSTCARD_HEIGHT - 96);
 
   try {
@@ -60,18 +60,18 @@ export async function exportColoringPostcard(options: {
     /* logo 加载失败时仍输出明信片 */
   }
 
-  ctx.fillStyle = "#26241F";
+  ctx.fillStyle = "#213338";
   ctx.font = "600 28px 'Noto Serif SC', serif";
   ctx.fillText("看见壁上山西", 164, 104);
-  ctx.font = "12px Inter, sans-serif";
-  ctx.fillStyle = "#3E6264";
+  ctx.font = "500 12px 'IBM Plex Sans', sans-serif";
+  ctx.fillStyle = "#213338";
   ctx.fillText("JIN MUSEUM", 164, 128);
 
-  ctx.fillStyle = "#26241F";
+  ctx.fillStyle = "#213338";
   ctx.font = "600 42px 'Noto Serif SC', serif";
   ctx.fillText("COLOR THE MURAL", 72, 196);
   ctx.font = "22px 'Noto Serif SC', serif";
-  ctx.fillStyle = "#3E6264";
+  ctx.fillStyle = "#B88C57";
   ctx.fillText(
     `${options.templeName} · ${options.figureName}`,
     72,
@@ -90,12 +90,12 @@ export async function exportColoringPostcard(options: {
   );
 
   const starText = `${"★".repeat(options.stars)}${"☆".repeat(5 - options.stars)}  ${options.stars} / 5`;
-  ctx.fillStyle = "#A2643E";
+  ctx.fillStyle = "#B88C57";
   ctx.font = "28px serif";
   ctx.fillText(starText, 72, 1148);
 
-  ctx.fillStyle = "#8D8A82";
-  ctx.font = "16px Inter, sans-serif";
+  ctx.fillStyle = "rgb(33 51 56 / 68%)";
+  ctx.font = "500 16px 'IBM Plex Sans', sans-serif";
   const date = options.createdAt.toISOString().slice(0, 10);
   ctx.fillText(date, 72, 1188);
   ctx.fillText(options.siteLabel ?? "murals of shanxi", 72, 1218);

@@ -154,7 +154,7 @@ export default function DetailOverlay({
       >
         {/* 顶部经典双细线明信片边框装饰 */}
         <div className="absolute inset-2 pointer-events-none border border-ink/5 rounded-sm" />
-        <div className="absolute inset-2.5 pointer-events-none border border-dashed border-[#8B352E]/10 rounded-sm" />
+        <div className="absolute inset-2.5 pointer-events-none border border-dashed border-cinnabar/10 rounded-sm" />
 
         {/* 关闭按钮 - 设计成一个古风的小圆盖戳记 */}
         <button
@@ -195,23 +195,23 @@ export default function DetailOverlay({
 
         <div className="overflow-y-auto px-6 py-5 md:px-8 md:py-6">
           {isTemple && (
-            <p className="font-sans text-[10px] tracking-[0.2em] text-stone">
+            <p className="type-meta text-gold">
               {temple!.region} · {temple!.era}
             </p>
           )}
           {isElement && (
-            <p className="font-sans text-[10px] tracking-[0.2em] text-stone">
+            <p className="type-meta text-gold">
               {locCoverCategory(locale, content.element!.category)} · {content.element!.id}
             </p>
           )}
-          <h2 className="mt-1 font-serif text-xl text-ink md:text-2xl">
+          <h2 className="type-page mt-2">
             {title}
           </h2>
-          <p className="mt-3 font-serif text-sm leading-relaxed text-ink/75">
+          <p className="type-body mt-4 text-ink">
             {description}
           </p>
           {isElement && (
-            <p className="mt-2 font-sans text-[11px] tracking-[0.18em] text-ink/45">
+            <p className="type-meta mt-2 text-ink/70">
               CONTENT IN PREPARATION
             </p>
           )}
@@ -220,7 +220,7 @@ export default function DetailOverlay({
             {keywords.map((kw) => (
               <span
                 key={kw}
-                className="rounded-sm bg-parchment px-2.5 py-1 font-sans text-[10px] text-stone"
+                className="type-meta bg-parchment px-2.5 py-1 text-gold"
               >
                 {kw}
               </span>
@@ -236,7 +236,7 @@ export default function DetailOverlay({
           )}
 
           {isStory && templeName && (
-            <p className="mt-4 font-sans text-[10px] text-ink/40">
+            <p className="type-caption mt-4 text-ink/70">
               {t("detail.belongsTo", { id: templeName })}
             </p>
           )}
@@ -324,11 +324,7 @@ function ActionButton({
   return (
     <button
       type="button"
-      className={`rounded-xs px-3 font-serif text-[11px] tracking-widest transition-all duration-300 font-medium active:scale-97 shadow-sm flex items-center justify-center gap-1 ${
-        primary
-          ? "bg-[#8B352E] text-[#FDFBF7] hover:bg-[#8B352E]/90 border border-[#8B352E] hover:shadow-md"
-          : "border border-[#8B352E]/25 text-[#8B352E] hover:bg-[#8B352E]/5 hover:border-[#8B352E]/40 bg-white/40"
-      } ${className}`}
+      className={`${primary ? "btn-primary" : "btn-secondary"} ${className}`}
     >
       {children}
     </button>

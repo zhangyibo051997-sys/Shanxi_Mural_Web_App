@@ -41,14 +41,11 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div
-      ref={rootRef}
-      className="flex items-center gap-0.5 border border-stone/15 bg-rice/90 p-1 shadow-sm"
-    >
+    <div ref={rootRef} className="nav-chip gap-1 px-2">
       {open ? (
         <>
           <span
-            className="flex h-7 w-7 shrink-0 items-center justify-center text-ink/70"
+            className="flex h-11 w-11 shrink-0 items-center justify-center text-ink/70"
             aria-hidden="true"
           >
             <TranslateIcon />
@@ -57,7 +54,7 @@ export default function LanguageSwitcher() {
             id={listId}
             role="listbox"
             aria-label={t("language.label")}
-            className="flex items-center gap-0.5"
+            className="flex items-center gap-1"
           >
             {LOCALES.map((code: Locale) => {
               const active = locale === code;
@@ -69,10 +66,8 @@ export default function LanguageSwitcher() {
                   aria-selected={active}
                   aria-label={LOCALE_NAMES[code]}
                   onClick={() => choose(code)}
-                  className={`min-h-7 min-w-8 px-2 font-sans text-[10px] tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar md:text-[11px] ${
-                    active
-                      ? "bg-parchment text-ink"
-                      : "text-ink/45 hover:text-ink"
+                  className={`type-ui min-h-11 min-w-11 px-2 ${
+                    active ? "text-ink" : "text-ink/45 hover:text-cinnabar"
                   }`}
                 >
                   {LOCALE_SHORT[code]}
@@ -85,7 +80,7 @@ export default function LanguageSwitcher() {
               aria-controls={listId}
               aria-label={t("nav.close")}
               onClick={() => setOpen(false)}
-              className="flex h-7 w-7 items-center justify-center text-ink/55 transition-colors hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar"
+              className="btn-icon border-0 bg-transparent"
             >
               <Chevron up />
             </button>
@@ -99,9 +94,9 @@ export default function LanguageSwitcher() {
           aria-haspopup="listbox"
           aria-label={`${t("language.label")}：${LOCALE_NAMES[locale]}`}
           onClick={() => setOpen(true)}
-          className="flex min-h-7 items-center gap-1.5 px-1.5 font-sans text-[10px] tracking-wide text-ink transition-colors hover:text-ink/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar md:text-[11px]"
+          className="type-ui flex min-h-11 items-center gap-2 px-1 text-ink"
         >
-          <span className="flex h-7 w-7 items-center justify-center text-ink/70">
+          <span className="flex h-11 w-8 items-center justify-center text-ink/70">
             <TranslateIcon />
           </span>
           {LOCALE_SHORT[locale]}
@@ -114,18 +109,18 @@ export default function LanguageSwitcher() {
 
 function TranslateIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
         d="M5 8h12M9 8c0 5-2 8-6 10M12.5 8c-.4 2.2-1.6 4.2-3.5 6"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="m14 20 3.2-8 3.2 8M15.2 17h4"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -136,8 +131,8 @@ function TranslateIcon() {
 function Chevron({ up = false }: { up?: boolean }) {
   return (
     <svg
-      width="8"
-      height="8"
+      width="16"
+      height="16"
       viewBox="0 0 8 8"
       fill="none"
       aria-hidden="true"

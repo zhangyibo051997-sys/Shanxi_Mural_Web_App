@@ -26,23 +26,23 @@ export default function MatchingFeedback({
   const cardRef = useRef<HTMLDivElement>(null);
   const isCorrect = result === "correct";
   const localized = mural ? locMural(locale, mural) : null;
+  const lang = locale === "zh" ? "zh-CN" : locale === "it" ? "it" : "en";
 
   useEffect(() => {
     cardRef.current?.focus();
   }, [result]);
 
   useEffect(() => {
-    if (isCorrect) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onDismiss();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [isCorrect, onDismiss]);
+  }, [onDismiss]);
 
   return (
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center bg-parchment/30 px-5 backdrop-contrast-75"
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-parchment/30 px-4 backdrop-contrast-75"
       role="presentation"
       onClick={isCorrect ? undefined : onDismiss}
     >
@@ -52,14 +52,21 @@ export default function MatchingFeedback({
         aria-modal={isCorrect ? true : undefined}
         tabIndex={-1}
         onClick={(event) => event.stopPropagation()}
-        className={`relative w-full max-w-md border bg-rice px-7 py-8 text-center shadow-[0_20px_55px_rgba(38,36,31,0.2)] focus:outline-none ${
-          isCorrect ? "border-stone/25" : "border-cinnabar/35"
-        }`}
+        className="surface-card relative w-[calc(100vw-32px)] max-w-[400px] rounded p-8 text-center shadow-overlay md:w-[380px]"
       >
+        <button
+          type="button"
+          onClick={onDismiss}
+          aria-label={t("nav.close")}
+          className="btn-icon absolute right-3 top-3 border-0 bg-transparent text-ink/60 hover:text-cinnabar"
+        >
+          ×
+        </button>
+
         <span
-          className={`mx-auto flex h-9 w-9 items-center justify-center rounded-full border ${
+          className={`mx-auto flex h-9 w-9 items-center justify-center border ${
             isCorrect
-              ? "border-[#B08A3C]/40 text-[#A77B25]"
+              ? "border-gold/40 text-gold"
               : "border-cinnabar/35 text-cinnabar"
           }`}
           aria-hidden="true"
@@ -67,21 +74,25 @@ export default function MatchingFeedback({
           {isCorrect ? "★" : "×"}
         </span>
 
-        <p className="mt-5 font-sans text-xs tracking-[0.24em] text-stone">
+        <p
+          className={`type-meta mt-5 ${
+            isCorrect ? "text-gold" : "text-cinnabar"
+          }`}
+        >
           {isCorrect
             ? earnedStar
               ? t("match.foundLabel")
               : t("match.again")
             : t("match.oops")}
         </p>
-        <h2 className="mt-2 font-serif text-2xl text-stone">
+        <h2 lang={lang} className="type-page mt-2">
           {isCorrect
             ? t("match.correctTitle", {
                 muralTitle: localized?.title || "",
               })
             : t("match.wrongTitle")}
         </h2>
-        <p className="mt-2 font-serif text-sm text-ink/65">
+        <p lang={lang} className="type-body mt-2 text-ink">
           {isCorrect
             ? earnedStar
               ? t("match.correctBody")
@@ -90,15 +101,17 @@ export default function MatchingFeedback({
         </p>
 
         {isCorrect && localized && (
-          <div className="mt-5 border-t border-stone/15 pt-4 text-left">
-            <p className="font-serif text-base text-stone">{localized.title}</p>
-            <p className="mt-1 font-sans text-[11px] text-stone/60">
+          <div className="mt-5 border-t border-[var(--color-border-subtle)] pt-4 text-left">
+            <p lang={lang} className="type-card">
+              {localized.title}
+            </p>
+            <p className="type-meta mt-2 text-gold">
               {localized.templeName}
               {localized.location ? ` · ${localized.location}` : ""}
               {localized.period ? ` · ${localized.period}` : ""}
             </p>
             {localized.description && (
-              <p className="mt-3 font-serif text-sm leading-relaxed text-ink/70">
+              <p lang={lang} className="type-body mt-3 text-ink/80">
                 {localized.description}
               </p>
             )}
@@ -107,27 +120,19 @@ export default function MatchingFeedback({
 
         {isCorrect ? (
           <div className="mt-7 flex flex-col gap-2 sm:flex-row sm:justify-center">
-            <button
-              type="button"
-              onClick={onLearnMore}
-              className="min-h-11 bg-cinnabar px-6 py-3 font-serif text-sm text-rice transition-colors hover:bg-[#7a2e28] focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar focus-visible:ring-offset-2 focus-visible:ring-offset-rice"
-            >
+            <button type="button" onClick={onLearnMore} className="btn-primary">
               {t("match.viewMural")}
             </button>
             <button
               type="button"
               onClick={onChooseAnother}
-              className="min-h-11 border border-stone/25 px-6 py-3 font-serif text-sm text-stone transition-colors hover:border-stone/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar"
+              className="btn-secondary"
             >
               {t("match.chooseAnother")}
             </button>
           </div>
         ) : (
-          <button
-            type="button"
-            onClick={onDismiss}
-            className="mt-7 min-h-11 border border-stone/25 px-6 py-2.5 font-serif text-sm text-stone transition-colors hover:border-stone/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar"
-          >
+          <button type="button" onClick={onDismiss} className="btn-secondary mt-7">
             {t("match.keepLooking")}
           </button>
         )}

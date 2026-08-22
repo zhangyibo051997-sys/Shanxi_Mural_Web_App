@@ -67,7 +67,7 @@ export async function exportColoredArtwork(options: {
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("无法创建画布");
 
-  ctx.fillStyle = options.paperColor ?? "#EEE8DC";
+  ctx.fillStyle = options.paperColor ?? "#E2DDD3";
   ctx.fillRect(0, 0, width, height);
 
   const paintOrder = [...options.regions].reverse();

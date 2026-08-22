@@ -49,32 +49,31 @@ export default function ConfirmDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="coloring-dialog-title"
-        className="w-full max-w-sm border border-ink/10 bg-rice p-6 shadow-[0_8px_24px_rgba(38,36,31,0.16)]"
+        className="surface-card relative w-[calc(100vw-32px)] max-w-[400px] rounded p-8 shadow-overlay"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2
-          id="coloring-dialog-title"
-          className="font-serif text-lg text-ink"
+        <button
+          type="button"
+          onClick={onCancel}
+          aria-label={cancelLabel}
+          className="btn-icon absolute right-3 top-3 border-0 bg-transparent text-ink/60 hover:text-cinnabar"
         >
+          ×
+        </button>
+        <h2 id="coloring-dialog-title" className="type-page pr-10">
           {title}
         </h2>
-        <p className="mt-2 font-serif text-sm leading-relaxed text-ink/70">
-          {body}
-        </p>
+        <p className="type-body mt-4 text-ink/80">{body}</p>
         <div className="mt-6 flex justify-end gap-2">
           <button
             ref={cancelRef}
             type="button"
             onClick={onCancel}
-            className="min-h-11 px-4 font-sans text-xs tracking-wide text-stone hover:text-ink"
+            className="btn-secondary"
           >
             {cancelLabel}
           </button>
-          <button
-            type="button"
-            onClick={onConfirm}
-            className="min-h-11 bg-cinnabar px-4 font-sans text-xs tracking-wide text-rice hover:bg-cinnabar/90"
-          >
+          <button type="button" onClick={onConfirm} className="btn-primary">
             {confirmLabel}
           </button>
         </div>

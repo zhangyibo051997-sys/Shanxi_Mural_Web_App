@@ -24,24 +24,24 @@ export default function MuralInfoPanel({
 
   return (
     <div className="min-w-0">
-      <p className="font-sans text-[10px] tracking-[0.16em] text-stone/70">
+      <p className="type-meta text-gold">
         {copy.temple}
         {copy.hall ? ` / ${copy.hall}` : ""}
       </p>
-      <h2 className="mt-1.5 font-serif text-2xl text-stone md:text-3xl">
+      <h2 className="type-page mt-2">
         {copy.displayTitle}
       </h2>
-      <p className="mt-1 font-sans text-[11px] text-stone/60">{copy.dynasty}</p>
+      <p className="type-meta mt-2 text-gold">{copy.dynasty}</p>
 
       <section className="mt-6" aria-labelledby={`${storyId}-heading`}>
         <h3
           id={`${storyId}-heading`}
-          className="font-sans text-[10px] tracking-[0.18em] text-stone"
+          className="type-meta text-ink/70"
         >
           {t("detail.whatPainted")}
         </h3>
         <p
-          className={`mt-2 font-serif text-sm leading-7 text-ink/70 ${
+          className={`type-body mt-2 text-ink ${
             expanded ? "" : "line-clamp-6"
           }`}
         >
@@ -50,7 +50,7 @@ export default function MuralInfoPanel({
         <button
           type="button"
           onClick={() => setExpanded((value) => !value)}
-          className="mt-2 min-h-9 font-sans text-[11px] tracking-wide text-cinnabar hover:text-[#7a2e28] focus:outline-none focus-visible:underline"
+          className="btn-tertiary mt-2 text-cinnabar"
           aria-expanded={expanded}
         >
           {expanded ? t("detail.collapse") : t("detail.readMore")}
@@ -60,7 +60,7 @@ export default function MuralInfoPanel({
       <section className="mt-6" aria-labelledby={`${storyId}-guide`}>
         <h3
           id={`${storyId}-guide`}
-          className="mb-2 font-sans text-[10px] tracking-[0.18em] text-stone"
+          className="type-meta mb-2 text-ink/70"
         >
           {t("detail.howToRead")}
         </h3>
@@ -71,7 +71,7 @@ export default function MuralInfoPanel({
         <section className="mt-6" aria-labelledby={`${storyId}-figures`}>
           <h3
             id={`${storyId}-figures`}
-            className="font-sans text-[10px] tracking-[0.18em] text-stone"
+            className="type-meta text-ink/70"
           >
             {t("detail.figures")}
           </h3>
@@ -79,10 +79,10 @@ export default function MuralInfoPanel({
             {figures.map((element) => (
               <li
                 key={element.id}
-                className="font-serif text-sm leading-relaxed text-ink/70"
+                className="type-body text-ink"
               >
                 {element.displayName}
-                <span className="ml-2 font-sans text-[10px] tracking-wide text-stone/55">
+                <span className="type-meta ml-2 text-gold">
                   {element.category}
                 </span>
               </li>
@@ -92,11 +92,11 @@ export default function MuralInfoPanel({
       )}
 
       <section className="mt-6 border-t border-stone/15 pt-4">
-        <h3 className="mb-2 font-sans text-[10px] tracking-[0.18em] text-stone">
+        <h3 className="type-meta mb-2 text-ink/70">
           {t("detail.research")}
         </h3>
         <ResearchStatusNote text={copy.locationPrecision} />
-        <p className="mt-2 font-sans text-[10px] leading-relaxed text-stone/55">
+        <p className="type-caption mt-2 text-ink/70">
           {copy.location}
         </p>
       </section>

@@ -4,6 +4,6 @@ type ResearchStatusNoteProps = {
 
 export default function ResearchStatusNote({ text }: ResearchStatusNoteProps) {
   return (
-    <p className="font-sans text-[11px] leading-relaxed text-stone/75">{text}</p>
+    <p className="type-caption text-ink/70">{text}</p>
   );
 }

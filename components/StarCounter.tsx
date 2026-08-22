@@ -11,16 +11,17 @@ export default function StarCounter() {
   const { progress } = useGameProgress();
   const stars = Math.min(MAX_STARS, progress.stars);
   const label = t("nav.starsAria", { stars, max: MAX_STARS });
-  const className =
-    "flex min-h-9 items-center gap-1.5 border border-stone/15 bg-rice/90 px-3 py-2 text-stone shadow-sm transition-colors hover:border-stone/40 hover:bg-rice focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar";
+  const className = "nav-chip gap-2";
 
   const content = Array.from({ length: MAX_STARS }, (_, index) => (
     <span
       key={index}
-      className={index < stars ? "text-[#A77B25]" : "text-stone/30"}
+      className={index < stars ? "text-gold" : "text-ink/20"}
       aria-hidden="true"
     >
-      {index < stars ? "★" : "☆"}
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
+        <path d="M9 1.6 11.1 6l4.9.7-3.5 3.4.8 4.9L9 12.7 4.7 15l.8-4.9L2 6.7 6.9 6 9 1.6Z" />
+      </svg>
     </span>
   ));
 

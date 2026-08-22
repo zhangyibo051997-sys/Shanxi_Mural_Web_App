@@ -135,7 +135,7 @@ const MuralCanvas = forwardRef<MuralCanvasHandle, MuralCanvasProps>(
         );
 
         const paper = paperRef.current!.getContext("2d")!;
-        paper.fillStyle = "#EEE8DC";
+        paper.fillStyle = "#E2DDD3";
         paper.fillRect(0, 0, w, h);
 
         const base = baseRef.current!.getContext("2d")!;

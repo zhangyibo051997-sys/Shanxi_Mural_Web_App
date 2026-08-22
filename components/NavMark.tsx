@@ -17,7 +17,7 @@ export default function NavMark({ onClick, href = "/" }: NavMarkProps) {
       alt={t("brand.logoAlt")}
       width={36}
       height={36}
-      className="h-9 w-9 object-contain"
+      className="h-9 w-9 object-contain md:h-10 md:w-10"
     />
   );
 
@@ -26,7 +26,7 @@ export default function NavMark({ onClick, href = "/" }: NavMarkProps) {
       <button
         type="button"
         onClick={onClick}
-        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar"
+        className="block min-h-11 min-w-11"
         aria-label={t("brand.backToCover")}
       >
         {mark}
@@ -37,7 +37,7 @@ export default function NavMark({ onClick, href = "/" }: NavMarkProps) {
   return (
     <Link
       href={href}
-      className="block transition-opacity hover:opacity-85 focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar"
+      className="block min-h-11 min-w-11 transition-opacity hover:opacity-85"
       aria-label={t("brand.backToHome")}
     >
       {mark}

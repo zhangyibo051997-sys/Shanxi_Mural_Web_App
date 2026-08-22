@@ -30,20 +30,20 @@ export default function ComparisonView({
     <div className="bg-parchment pb-16">
       <div className="mx-auto max-w-5xl px-4 py-8 md:px-8 md:py-12">
         <header className="mb-8">
-          <h2 className="font-serif text-2xl text-ink md:text-3xl">
+          <h2 className="type-page">
             {t("color.yourColor")}
           </h2>
-          <p className="mt-2 font-serif text-sm text-ink/65">
+          <p className="type-ui mt-2 text-ink/70">
             {t("color.compareHint")}
           </p>
-          <p className="mt-2 font-sans text-[10px] text-stone">
+          <p className="type-caption mt-2 text-ink/70">
             {t("color.comparisonNote")}
           </p>
         </header>
 
         <div className="grid gap-4 md:grid-cols-2">
           <figure>
-            <figcaption className="mb-2 font-sans text-[11px] text-stone">
+            <figcaption className="type-section mb-2">
               {t("color.mine")}
             </figcaption>
             <div className="relative aspect-[3/4] overflow-hidden border border-ink/10 bg-rice">
@@ -56,7 +56,7 @@ export default function ComparisonView({
             </div>
           </figure>
           <figure>
-            <figcaption className="mb-2 font-sans text-[11px] text-stone">
+            <figcaption className="type-section mb-2">
               {t("color.original")}
             </figcaption>
             <div className="relative aspect-[3/4] overflow-hidden border border-ink/10 bg-rice">
@@ -103,7 +103,7 @@ function ActionBtn({
   href?: string;
 }) {
   const cls =
-    "rounded-sm border border-ink/15 px-4 py-2.5 font-sans text-[11px] tracking-wide text-ink transition-colors hover:border-ink/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar";
+    "btn-secondary";
   if (href) {
     return (
       <a href={href} className={cls}>

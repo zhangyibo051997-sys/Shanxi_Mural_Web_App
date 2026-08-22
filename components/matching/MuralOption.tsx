@@ -3,6 +3,8 @@
 import type { Mural } from "@/data/murals";
 import type { MuralMatchingPosition } from "@/data/muralMatchingLayout";
 import OutlineAnimation from "@/components/mural/OutlineAnimation";
+import { locMural } from "@/lib/i18n/localize";
+import { useLocale } from "@/components/i18n/LocaleProvider";
 
 interface MuralOptionProps {
   mural: Mural;
@@ -27,6 +29,8 @@ export default function MuralOption({
   onSelect,
   onOutlineComplete,
 }: MuralOptionProps) {
+  const { locale } = useLocale();
+  const copy = locMural(locale, mural);
   const height = layout.width / layout.aspectRatio;
   const image = mural.thumbnail || mural.image;
 
@@ -41,7 +45,7 @@ export default function MuralOption({
         event.stopPropagation();
         onSelect(mural.id);
       }}
-      className="mural-option group absolute text-left transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(38,36,31,0.16)] focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar focus-visible:ring-offset-4 focus-visible:ring-offset-parchment motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+      className="mural-option group absolute text-left motion-reduce:hover:translate-y-0"
       style={{
         left: layout.x,
         top: layout.y,
@@ -53,7 +57,7 @@ export default function MuralOption({
       }}
     >
       <span className="mural-option-visual relative block h-full w-full">
-        <span className="block h-full w-full overflow-hidden bg-[#C9C0B3]">
+        <span className="block h-full w-full overflow-hidden border border-[rgb(33_51_56_/_18%)] bg-rice">
           {image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -71,8 +75,8 @@ export default function MuralOption({
           )}
         </span>
 
-        <span className="pointer-events-none absolute bottom-3 left-3 bg-rice/90 px-2 py-1 font-sans text-[9px] tracking-[0.18em] text-stone opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
-          SELECT MURAL
+        <span className="type-meta-en pointer-events-none absolute bottom-3 left-3 bg-rice/90 px-2 py-1 text-ink/70 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+          {copy.title}
         </span>
 
         <OutlineAnimation

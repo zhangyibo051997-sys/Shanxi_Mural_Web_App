@@ -58,7 +58,7 @@ export default function MuralDetailOverlay({
       }}
     >
       <article
-        className={`relative flex w-full overflow-hidden bg-rice shadow-2xl ${
+        className={`relative flex w-full overflow-hidden border border-[var(--color-border)] bg-rice ${
           isMobile
             ? "max-h-[calc(100%-0.5rem)] flex-col rounded-t-md"
             : "h-full max-h-[40rem] max-w-5xl flex-row"
@@ -69,7 +69,7 @@ export default function MuralDetailOverlay({
           type="button"
           onClick={onClose}
           aria-label={t("detail.closeMural")}
-          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center bg-rice/90 text-stone focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar"
+          className="btn-icon absolute right-4 top-4 z-10 text-ink/60 hover:text-cinnabar"
         >
           ×
         </button>
@@ -106,14 +106,14 @@ export default function MuralDetailOverlay({
                 />
               </div>
               <div className="min-w-0">
-                <p className="font-sans text-[10px] tracking-[0.18em] text-cinnabar/80">
+                <p className="type-meta text-cinnabar">
                   {t("detail.foundElement")}
                 </p>
-                <p className="mt-1 font-serif text-base text-stone">
+                <p className="type-card mt-2">
                   {figureCopy.displayName}
                 </p>
                 {figureCopy.category && (
-                  <p className="mt-0.5 font-sans text-[10px] tracking-wide text-stone/55">
+                  <p className="type-meta mt-1 text-gold">
                     {figureCopy.category}
                   </p>
                 )}
@@ -128,16 +128,16 @@ export default function MuralDetailOverlay({
             />
           ) : (
             <>
-              <p className="font-sans text-[10px] tracking-[0.22em] text-cinnabar/80">
+              <p className="type-meta text-cinnabar">
                 {t("detail.eyebrow")}
               </p>
-              <h2 className="mt-2 font-serif text-2xl text-stone md:text-3xl">
+              <h2 className="type-page mt-2">
                 {uiCopy.title}
               </h2>
-              <p className="mt-1 font-sans text-[11px] text-stone/60">
+              <p className="type-meta mt-2 text-gold">
                 {uiCopy.templeName} · {uiCopy.period} · {uiCopy.location}
               </p>
-              <p className="mt-5 font-serif text-sm leading-7 text-ink/70">
+              <p className="type-body mt-4 text-ink">
                 {uiCopy.description}
               </p>
             </>
@@ -146,7 +146,7 @@ export default function MuralDetailOverlay({
           <button
             type="button"
             onClick={() => onOpenTemple(uiCopy.templeId)}
-            className="mt-7 min-h-11 bg-cinnabar px-6 py-3 font-serif text-sm text-rice transition-colors hover:bg-[#7a2e28] focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar focus-visible:ring-offset-2 focus-visible:ring-offset-rice"
+            className="btn-primary mt-7"
           >
             {t("detail.goToTemple", { name: uiCopy.templeName })}
           </button>

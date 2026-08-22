@@ -11,18 +11,18 @@ export default function InteractiveIndex() {
     <div className="coloring-page relative min-h-screen bg-parchment">
       <FixedNavigation />
       <main className="flex min-h-screen flex-col items-center justify-center px-6 pt-24">
-        <h1 className="font-serif text-2xl text-ink">{t("interactive.title")}</h1>
-        <p className="mt-3 max-w-md text-center font-serif text-sm text-ink/65">
+        <h1 className="type-page">{t("interactive.title")}</h1>
+        <p className="type-body mt-4 max-w-md text-center text-ink/80">
           {t("interactive.lead")}
         </p>
         <ul className="mt-8 space-y-3">
           <li>
             <Link
               href="/interactive/color-the-mural"
-              className="block rounded-sm border border-ink/15 bg-rice/80 px-6 py-4 font-serif text-ink transition-colors hover:border-ink/30"
+              className="surface-card block px-6 py-6 text-ink transition-[box-shadow,border-color] duration-200 hover:shadow-hover"
             >
-              {t("interactive.color")}
-              <span className="mt-1 block font-sans text-[10px] tracking-wider text-stone">
+              <span className="type-card block">{t("interactive.color")}</span>
+              <span className="type-caption mt-2 block text-ink/70">
                 {t("interactive.colorHint")}
               </span>
             </Link>
@@ -30,7 +30,7 @@ export default function InteractiveIndex() {
         </ul>
         <Link
           href="/"
-          className="mt-10 font-sans text-xs text-ink/50 hover:text-ink"
+          className="btn-tertiary mt-10"
         >
           {t("interactive.home")}
         </Link>

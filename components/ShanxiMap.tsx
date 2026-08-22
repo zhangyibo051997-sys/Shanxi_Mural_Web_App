@@ -28,9 +28,9 @@ const VIEW_H = 760;
 const MIN_ZOOM = 0.75;
 const MAX_ZOOM = 4;
 const ZOOM_STEP = 1.25;
-const CINNABAR = "#8B352E";
-const STONE = "#3E6264";
-const INK_MUTED = "#9A948C";
+const CINNABAR = "#A83826";
+const STONE = "#213338";
+const INK_MUTED = "rgb(33 51 56 / 68%)";
 /** 顶部导航遮住一部分，焦点略偏下，落在可视区域中央 */
 const FOCUS_NUDGE_Y = 70;
 const FOCUS_ZOOM = 2.55;
@@ -650,7 +650,7 @@ export default function ShanxiMap({
                   dx="0"
                   dy="2.5"
                   stdDeviation="2"
-                  floodColor="#26241F"
+                  floodColor="#213338"
                   floodOpacity="0.16"
                 />
               </filter>
@@ -710,7 +710,7 @@ export default function ShanxiMap({
                       <path
                         d={city.d}
                         fill={highlighted ? colors.highlight : colors.fill}
-                        stroke="#26241F"
+                        stroke="#213338"
                         strokeWidth={highlighted ? 1.35 : 0.85}
                         strokeLinejoin="round"
                         filter="url(#map-block-shadow)"
@@ -752,7 +752,7 @@ export default function ShanxiMap({
                         textAnchor="middle"
                         dominantBaseline="middle"
                         className="pointer-events-none select-none"
-                        fill={city.hasTemple ? STONE : "#26241F55"}
+                        fill={city.hasTemple ? STONE : "rgb(33 51 56 / 33%)"}
                         fontSize={city.hasTemple ? 11 : 9}
                         opacity={muted ? 0.55 : 0.8}
                         style={{
@@ -876,7 +876,7 @@ export default function ShanxiMap({
                       fill={
                         !isOpen ? INK_MUTED : featured ? CINNABAR : STONE
                       }
-                      stroke={isFocused ? "#F3E6D8" : "#EEE8DC"}
+                      stroke={isFocused ? "#F6F4F2" : "#E2DDD3"}
                       strokeWidth={isFocused ? 2.2 : 1.75}
                     />
 
@@ -896,8 +896,8 @@ export default function ShanxiMap({
                               isFocused
                                 ? CINNABAR
                                 : isOpen
-                                  ? "#26241F"
-                                  : "#26241F66"
+                                  ? "#213338"
+                                  : "rgb(33 51 56 / 40%)"
                             }
                             fontSize={
                               isFocused
@@ -959,7 +959,7 @@ export default function ShanxiMap({
                         <span className="block font-serif text-sm leading-snug text-ink">
                           {copy.name}
                         </span>
-                        <span className="mt-0.5 block font-sans text-[10px] text-stone">
+                        <span className="type-meta mt-1 block text-gold">
                           {copy.region.replace(/^山西[·•]\s*/, "")} · {copy.era}
                         </span>
                       </button>
@@ -994,7 +994,7 @@ export default function ShanxiMap({
               <button
                 type="button"
                 onClick={onChooseSticker}
-                className="pointer-events-auto mt-2 rounded-sm border border-ink/15 bg-rice/85 px-3 py-2 font-sans text-[11px] leading-snug tracking-wide text-ink/70 backdrop-blur-sm transition-colors hover:border-ink/30 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar"
+                className="btn-secondary pointer-events-auto mt-2 bg-rice/85"
               >
                 {t("map.chooseSticker")}
               </button>

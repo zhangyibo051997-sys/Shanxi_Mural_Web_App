@@ -81,8 +81,8 @@ export default function OutlineAnimation({
           ref={outlineRef as React.RefObject<SVGPathElement>}
           d={path}
           fill="none"
-          stroke="#8B352E"
-          strokeWidth="1.5"
+          stroke="#A83826"
+          strokeWidth="2"
           strokeLinecap="round"
         />
       ) : (
@@ -93,8 +93,8 @@ export default function OutlineAnimation({
           width={width}
           height={height}
           fill="none"
-          stroke="#8B352E"
-          strokeWidth="1.5"
+          stroke="#A83826"
+          strokeWidth="2"
         />
       )}
     </svg>

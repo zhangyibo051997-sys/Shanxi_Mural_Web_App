@@ -76,7 +76,7 @@ export default function MiniMap({
             cx={anchor.x * scaleX}
             cy={anchor.y * scaleY}
             r={2}
-            fill="#8B352E"
+            fill="#A83826"
             opacity={0.6}
           />
         ))}
@@ -87,7 +87,7 @@ export default function MiniMap({
           y1={templeAnchors.gongzhu.y * scaleY}
           x2={templeAnchors.yanshan.x * scaleX}
           y2={templeAnchors.yanshan.y * scaleY}
-          stroke="#26241F"
+          stroke="#213338"
           strokeWidth={0.3}
           opacity={0.15}
         />
@@ -96,7 +96,7 @@ export default function MiniMap({
           y1={templeAnchors.gongzhu.y * scaleY}
           x2={templeAnchors.yongning.x * scaleX}
           y2={templeAnchors.yongning.y * scaleY}
-          stroke="#26241F"
+          stroke="#213338"
           strokeWidth={0.3}
           opacity={0.15}
         />
@@ -105,7 +105,7 @@ export default function MiniMap({
           y1={templeAnchors.gongzhu.y * scaleY}
           x2={templeAnchors.shuishen.x * scaleX}
           y2={templeAnchors.shuishen.y * scaleY}
-          stroke="#26241F"
+          stroke="#213338"
           strokeWidth={0.3}
           opacity={0.15}
         />
@@ -114,7 +114,7 @@ export default function MiniMap({
           y1={templeAnchors.gongzhu.y * scaleY}
           x2={templeAnchors.foguang.x * scaleX}
           y2={templeAnchors.foguang.y * scaleY}
-          stroke="#26241F"
+          stroke="#213338"
           strokeWidth={0.3}
           opacity={0.15}
         />
@@ -126,7 +126,7 @@ export default function MiniMap({
           width={viewW}
           height={viewH}
           fill="none"
-          stroke="#3E6264"
+          stroke="#213338"
           strokeWidth={1}
           rx={1}
         />

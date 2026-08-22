@@ -596,7 +596,7 @@ export default function MuralHomepage() {
           <button
             type="button"
             onClick={handleBackToMap}
-            className="pointer-events-auto fixed left-5 top-24 z-40 max-w-[min(22rem,calc(100vw-2.5rem))] rounded-sm border border-ink/15 bg-rice/80 px-3 py-2 text-left font-sans text-[11px] leading-snug tracking-wide text-ink/70 backdrop-blur-sm transition-colors hover:border-ink/30 hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-cinnabar md:left-6 md:top-28"
+            className="type-ui pointer-events-auto fixed left-5 top-24 z-40 max-w-[min(22rem,calc(100vw-2.5rem))] border border-[rgb(33_51_56_/_18%)] bg-rice px-4 py-3 text-left text-ink/70 md:left-6 md:top-28"
           >
             {t("explore.backToMap")}
             {selectedTempleName ? ` · ${selectedTempleName}` : ""}

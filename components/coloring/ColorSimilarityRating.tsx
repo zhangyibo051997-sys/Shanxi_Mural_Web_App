@@ -16,11 +16,11 @@ export default function ColorSimilarityRating({
   const { t } = useLocale();
   return (
     <div className="mt-4 shrink-0 pb-2 text-center">
-      <p className="font-sans text-[10px] tracking-[0.22em] text-stone">
+      <p className="type-meta text-gold">
         {t("color.similarityEyebrow")}
       </p>
       <p
-        className="mt-2 font-serif text-lg text-ochre"
+        className="type-section mt-2 text-gold"
         aria-label={t("color.simAria", { stars })}
       >
         {Array.from({ length: 5 }, (_, index) => (
@@ -36,15 +36,15 @@ export default function ColorSimilarityRating({
             {index < stars ? "★" : "☆"}
           </span>
         ))}
-        <span className="ml-2 font-sans text-sm text-ink/70">
+        <span className="type-ui ml-2 text-ink/70">
           {stars} / 5
         </span>
       </p>
-      <p className="mt-2 font-sans text-[10px] text-stone/80">
+      <p className="type-caption mt-2 text-ink/70">
         {t("color.comparedWith")}
       </p>
       {incomplete && (
-        <p className="mt-2 font-sans text-[10px] text-ink/55">
+        <p className="type-caption mt-2 text-ink/70">
           {t("color.incompleteRef")}
         </p>
       )}

@@ -10,10 +10,14 @@ type CanvasInstructionProps = {
 export default function CanvasInstruction({
   messageKey,
 }: CanvasInstructionProps) {
-  const { t } = useLocale();
+  const { locale, t } = useLocale();
+  const lang = locale === "zh" ? "zh-CN" : locale === "it" ? "it" : "en";
 
   return (
-    <p className="max-w-[min(40rem,100%)] text-balance text-center font-serif text-[13px] leading-snug text-cinnabar md:text-[15px]">
+    <p
+      lang={lang}
+      className="type-body max-w-[min(40rem,100%)] text-balance text-center text-ink"
+    >
       {t(messageKey)}
     </p>
   );

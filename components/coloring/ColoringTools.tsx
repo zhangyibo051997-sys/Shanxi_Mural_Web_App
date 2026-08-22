@@ -14,7 +14,7 @@ type ColoringToolsProps = {
 };
 
 const cell =
-  "min-h-11 flex-1 border border-ink/10 px-2 font-sans text-[11px] tracking-wide transition-colors";
+  "type-ui min-h-11 flex-1 border border-[rgb(33_51_56_/_18%)] bg-rice px-2 transition-colors duration-[180ms] ease-out";
 
 export default function ColoringTools({
   mode,
@@ -28,18 +28,18 @@ export default function ColoringTools({
   const { t } = useLocale();
 
   return (
-    <div className="mb-3 w-full max-w-sm shrink-0 space-y-3">
+    <div className="mb-6 w-full max-w-sm shrink-0 space-y-6">
       <div>
-        <p className="mb-2 font-sans text-[10px] tracking-[0.18em] text-stone">
+        <p className="type-meta mb-2 font-semibold text-ink/70">
           {t("color.ops")}
         </p>
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           <button
             type="button"
             aria-pressed={mode === "paint"}
             onClick={() => onModeChange("paint")}
             className={`${cell} ${
-              mode === "paint" ? "bg-cinnabar text-rice" : "bg-rice/70 text-ink/75"
+              mode === "paint" ? "bg-ink text-on-accent" : "text-ink"
             }`}
           >
             {t("color.brush")}
@@ -49,29 +49,29 @@ export default function ColoringTools({
             aria-pressed={mode === "pan"}
             onClick={() => onModeChange("pan")}
             className={`${cell} ${
-              mode === "pan" ? "bg-cinnabar text-rice" : "bg-rice/70 text-ink/75"
+              mode === "pan" ? "bg-ink text-on-accent" : "text-ink"
             }`}
           >
             {t("color.pan")}
           </button>
         </div>
-        <p className="mt-1.5 font-sans text-[10px] text-stone/80">
+        <p className="type-caption mt-2 text-ink/70">
           {mode === "pan" ? t("color.panHint") : t("color.paintHint")}
         </p>
       </div>
 
       <div className={mode === "pan" ? "opacity-40" : ""}>
-        <p className="mb-2 font-sans text-[10px] tracking-[0.18em] text-stone">
+        <p className="type-meta mb-2 font-semibold text-ink/70">
           {t("color.stroke")}
         </p>
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           <button
             type="button"
             aria-pressed={tool === "crayon"}
             disabled={mode === "pan"}
             onClick={() => onToolChange("crayon")}
             className={`${cell} ${
-              tool === "crayon" ? "bg-stone text-rice" : "bg-rice/70 text-ink/75"
+              tool === "crayon" ? "bg-ink text-on-accent" : "text-ink"
             }`}
           >
             {t("color.crayon")}
@@ -82,7 +82,7 @@ export default function ColoringTools({
             disabled={mode === "pan"}
             onClick={() => onToolChange("spray")}
             className={`${cell} ${
-              tool === "spray" ? "bg-stone text-rice" : "bg-rice/70 text-ink/75"
+              tool === "spray" ? "bg-ink text-on-accent" : "text-ink"
             }`}
           >
             {t("color.airbrush")}
@@ -91,10 +91,10 @@ export default function ColoringTools({
       </div>
 
       <div className={mode === "pan" ? "opacity-40" : ""}>
-        <p className="mb-2 font-sans text-[10px] tracking-[0.18em] text-stone">
+        <p className="type-meta mb-2 font-semibold text-ink/70">
           {t("color.size")}
         </p>
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           {(
             [
               ["fine", "color.fine"],
@@ -109,7 +109,7 @@ export default function ColoringTools({
               disabled={mode === "pan"}
               onClick={() => onSizeChange(id)}
               className={`${cell} ${
-                sizeId === id ? "bg-stone text-rice" : "bg-rice/70 text-ink/75"
+                sizeId === id ? "bg-ink text-on-accent" : "text-ink"
               }`}
             >
               {t(key)}
@@ -118,11 +118,7 @@ export default function ColoringTools({
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={onFit}
-        className="min-h-11 w-full font-sans text-[11px] tracking-wide text-stone hover:text-ink"
-      >
+      <button type="button" onClick={onFit} className="btn-tertiary w-full">
         {t("color.resetView")}
       </button>
     </div>
