@@ -7,6 +7,7 @@ type PigmentSwatchProps = {
   selected: boolean;
   dimmed?: boolean;
   interactive?: boolean;
+  showName?: boolean;
   onSelect?: (color: PigmentColor) => void;
 };
 
@@ -15,6 +16,7 @@ export default function PigmentSwatch({
   selected,
   dimmed = false,
   interactive = true,
+  showName = false,
   onSelect,
 }: PigmentSwatchProps) {
   const isWhite = color.id === "wall-white";
@@ -42,6 +44,11 @@ export default function PigmentSwatch({
           border: isWhite ? "1px solid rgba(238,232,220,0.55)" : "1px solid rgba(0,0,0,0.2)",
         }}
       />
+      {showName ? (
+        <span className="type-meta max-w-[4.5rem] truncate text-ink/70">
+          {color.nameZh}
+        </span>
+      ) : null}
     </button>
   );
 }

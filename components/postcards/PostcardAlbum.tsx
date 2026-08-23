@@ -197,70 +197,72 @@ export default function PostcardAlbum() {
 
       {active && (
         <div
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-ink/40 px-5"
+          className="fixed inset-0 z-[90] overflow-y-auto bg-ink/40 px-5 py-8"
           role="presentation"
           onClick={() => setActive(null)}
         >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-label={active.item.title}
-            className="surface-card relative w-[calc(100vw-32px)] max-w-[400px] rounded p-8 text-center shadow-overlay"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              type="button"
-              onClick={() => setActive(null)}
-              aria-label={t("nav.close")}
-              className="btn-icon absolute right-3 top-3 border-0 bg-transparent text-ink/60 hover:text-cinnabar"
-            >
-              ×
-            </button>
+          <div className="flex min-h-full items-center justify-center">
             <div
-              className={
-                active.kind === "sticker"
-                  ? "flex min-h-56 items-center justify-center border border-stone/15 bg-parchment/80 p-4"
-                  : ""
-              }
+              role="dialog"
+              aria-modal="true"
+              aria-label={active.item.title}
+              className="surface-card relative my-auto w-[calc(100vw-32px)] max-h-[calc(100svh-4rem)] max-w-[400px] overflow-y-auto rounded px-6 py-6 text-center shadow-overlay md:px-8 md:py-7"
+              onClick={(event) => event.stopPropagation()}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={active.item.src}
-                alt={active.item.title}
+              <button
+                type="button"
+                onClick={() => setActive(null)}
+                aria-label={t("nav.close")}
+                className="btn-icon absolute right-3 top-3 border-0 bg-transparent text-ink/60 hover:text-cinnabar"
+              >
+                ×
+              </button>
+              <div
                 className={
                   active.kind === "sticker"
-                    ? "max-h-[50vh] w-auto max-w-full object-contain"
-                    : "h-auto w-full border border-stone/15 object-contain"
+                    ? "mt-6 flex items-center justify-center border border-stone/15 bg-parchment/80 p-4"
+                    : "mt-6"
                 }
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={active.item.src}
+                  alt={active.item.title}
+                  className={
+                    active.kind === "sticker"
+                      ? "max-h-[min(36svh,240px)] w-auto max-w-full object-contain"
+                      : "mx-auto max-h-[min(40svh,280px)] w-auto max-w-full border border-stone/15 object-contain"
+                  }
+                />
+              </div>
+              <p className="type-card mt-4">
+                {locCollectedTitle(locale, active.item.id, active.item.title)}
+              </p>
+              <p className="type-meta mt-2 text-gold">
+                {active.kind === "sticker"
+                  ? t("postcard.kindSticker")
+                  : t("postcard.kindPostcard")}
+              </p>
+              <PostcardShare
+                kind={active.kind}
+                postcard={{
+                  id: active.item.id,
+                  src: active.item.src,
+                  title: active.item.title,
+                  fileName:
+                    active.kind === "sticker"
+                      ? active.item.fileName
+                      : fileNameFromSrc(active.item.src, `${active.item.id}.svg`),
+                }}
               />
+              <button
+                type="button"
+                onClick={() => setActive(null)}
+                className="btn-secondary mt-5"
+              >
+                {t("nav.close")}
+              </button>
             </div>
-            <p className="type-card mt-4">
-              {locCollectedTitle(locale, active.item.id, active.item.title)}
-            </p>
-            <p className="type-meta mt-2 text-gold">
-              {active.kind === "sticker"
-                ? t("postcard.kindSticker")
-                : t("postcard.kindPostcard")}
-            </p>
-            <PostcardShare
-              kind={active.kind}
-              postcard={{
-                id: active.item.id,
-                src: active.item.src,
-                title: active.item.title,
-                fileName:
-                  active.kind === "sticker"
-                    ? active.item.fileName
-                    : fileNameFromSrc(active.item.src, `${active.item.id}.svg`),
-              }}
-            />
-            <button
-              type="button"
-              onClick={() => setActive(null)}
-              className="btn-secondary mt-5"
-            >
-              {t("nav.close")}
-            </button>
           </div>
         </div>
       )}

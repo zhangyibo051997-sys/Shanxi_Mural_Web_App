@@ -268,6 +268,16 @@ export function useGameProgress() {
     return true;
   }, []);
 
+  const resetFigureAwards = useCallback(() => {
+    const current = getGameProgress();
+    if (current.completedFigureIds.length === 0) return;
+    persist({
+      ...current,
+      completedFigureIds: [],
+      updatedAt: new Date().toISOString(),
+    });
+  }, []);
+
   const clearPostcards = useCallback(() => {
     const current = getGameProgress();
     persist({
@@ -297,6 +307,7 @@ export function useGameProgress() {
     progress,
     hydrated,
     awardFigure,
+    resetFigureAwards,
     redeemPostcard,
     addCollectedPostcard: addCollectedPostcardToProgress,
     collectSticker,

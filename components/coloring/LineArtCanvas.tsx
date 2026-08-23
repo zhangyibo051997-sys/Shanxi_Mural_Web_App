@@ -32,6 +32,7 @@ const CLICK_THRESHOLD = 8;
 
 export type LineArtCanvasHandle = {
   exportComposite: () => Promise<HTMLCanvasElement>;
+  snapshotPaint: () => string | null;
   zoomIn: () => void;
   zoomOut: () => void;
   fitView: () => void;
@@ -49,6 +50,7 @@ type LineArtCanvasProps = {
   regionColors: RegionColorMap;
   selectedColor: string;
   interactive: boolean;
+  paintSnapshot?: string | null;
   mode?: InteractionMode;
   tool?: PaintTool;
   sizeId?: PaintSizeId;
@@ -74,6 +76,7 @@ const LineArtCanvas = forwardRef<LineArtCanvasHandle, LineArtCanvasProps>(
       regionColors,
       selectedColor,
       interactive,
+      paintSnapshot = null,
       mode = "paint",
       tool = "crayon",
       sizeId = "medium",
@@ -109,6 +112,8 @@ const LineArtCanvas = forwardRef<LineArtCanvasHandle, LineArtCanvasProps>(
     const lastPtRef = useRef<{ x: number; y: number } | null>(null);
     const spaceDownRef = useRef(false);
     const pendingRestoreRef = useRef<RegionColorMap | null>(null);
+    const pendingSnapshotRef = useRef<string | null>(paintSnapshot);
+    const appliedSnapshotRef = useRef<string | null>(null);
     const modeRef = useRef(mode);
     const toolRef = useRef(tool);
     const sizeIdRef = useRef(sizeId);
@@ -125,12 +130,30 @@ const LineArtCanvas = forwardRef<LineArtCanvasHandle, LineArtCanvasProps>(
     const { pushHistory, undo, redo, canUndo, canRedo } = useUndoRedo(paintRef);
     const brush = paintSizePresets[sizeId];
 
+    const clampPan = useCallback(() => {
+      const viewport = viewportRef.current;
+      const stage = stageRef.current;
+      if (!viewport || !stage) return;
+      const viewW = viewport.clientWidth;
+      const viewH = viewport.clientHeight;
+      const zoom = zoomRef.current;
+      const stageW = stage.offsetWidth * zoom;
+      const stageH = stage.offsetHeight * zoom;
+      const maxX = Math.max(0, (stageW - viewW) / 2);
+      const maxY = Math.max(0, (stageH - viewH) / 2);
+      panRef.current = {
+        x: Math.min(maxX, Math.max(-maxX, panRef.current.x)),
+        y: Math.min(maxY, Math.max(-maxY, panRef.current.y)),
+      };
+    }, []);
+
     const applyTransform = useCallback(() => {
       const stage = stageRef.current;
       if (!stage) return;
+      clampPan();
       const { x, y } = panRef.current;
       stage.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${zoomRef.current})`;
-    }, []);
+    }, [clampPan]);
 
     const clampZoom = (value: number) =>
       Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
@@ -261,6 +284,28 @@ const LineArtCanvas = forwardRef<LineArtCanvasHandle, LineArtCanvasProps>(
       [regions]
     );
 
+    const restorePaintSnapshot = useCallback((dataUrl: string) => {
+      const canvas = paintRef.current;
+      const ctx = canvas?.getContext("2d");
+      if (!canvas || !ctx || canvas.width === 0) {
+        pendingSnapshotRef.current = dataUrl;
+        return;
+      }
+      pendingSnapshotRef.current = null;
+      appliedSnapshotRef.current = dataUrl;
+      const image = new Image();
+      image.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      };
+      image.src = dataUrl;
+    }, []);
+
+    useEffect(() => {
+      if (!paintSnapshot || appliedSnapshotRef.current === paintSnapshot) return;
+      restorePaintSnapshot(paintSnapshot);
+    }, [paintSnapshot, restorePaintSnapshot]);
+
     const clearPaint = useCallback(() => {
       const canvas = paintRef.current;
       const ctx = canvas?.getContext("2d");
@@ -271,6 +316,15 @@ const LineArtCanvas = forwardRef<LineArtCanvasHandle, LineArtCanvasProps>(
     }, [onRegionColorsChange, pushHistory]);
 
     useImperativeHandle(ref, () => ({
+      snapshotPaint: () => {
+        const canvas = paintRef.current;
+        if (!canvas || canvas.width === 0) return pendingSnapshotRef.current;
+        try {
+          return canvas.toDataURL("image/png");
+        } catch {
+          return null;
+        }
+      },
       exportComposite: async () => {
         const paint = paintRef.current;
         if (paint && paint.width > 0) {
@@ -370,6 +424,7 @@ const LineArtCanvas = forwardRef<LineArtCanvasHandle, LineArtCanvasProps>(
         }
 
         const panNow =
+          !interactiveRef.current ||
           event.button === 1 ||
           spaceDownRef.current ||
           modeRef.current === "pan";
@@ -527,11 +582,9 @@ const LineArtCanvas = forwardRef<LineArtCanvasHandle, LineArtCanvasProps>(
         ref={viewportRef}
         data-lineart-canvas
         className={`relative h-full min-h-[280px] w-full touch-none select-none overflow-hidden bg-[#E9E2D4] ${
-          !interactive
-            ? ""
-            : panning
-              ? "cursor-grab active:cursor-grabbing"
-              : "cursor-none"
+          !interactive || panning
+            ? "cursor-grab active:cursor-grabbing"
+            : "cursor-none"
         }`}
       >
         <div className="absolute inset-0 flex items-center justify-center">
@@ -564,7 +617,11 @@ const LineArtCanvas = forwardRef<LineArtCanvasHandle, LineArtCanvasProps>(
                 const keep = canvas.width > 0 ? canvas.toDataURL() : null;
                 canvas.width = image.naturalWidth;
                 canvas.height = image.naturalHeight;
-                if (pendingRestoreRef.current) {
+                const snapshot =
+                  pendingSnapshotRef.current ?? paintSnapshot ?? null;
+                if (snapshot) {
+                  restorePaintSnapshot(snapshot);
+                } else if (pendingRestoreRef.current) {
                   restoreFromRegionColors(pendingRestoreRef.current);
                 } else if (keep) {
                   const restored = new Image();

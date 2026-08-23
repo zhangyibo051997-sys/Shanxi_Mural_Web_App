@@ -24,12 +24,6 @@ const navItems: { id: NavSection; labelKey: "nav.temples" }[] = [
   { id: "temples", labelKey: "nav.temples" },
 ];
 
-function navLinkClass(active: boolean) {
-  return `type-ui inline-flex min-h-11 items-center px-2 transition-colors duration-[180ms] ease-out hover:text-cinnabar ${
-    active ? "text-ink" : "text-ink/70"
-  }`;
-}
-
 export default function FixedNavigation({
   compact = true,
   variant = "site",
@@ -63,14 +57,16 @@ export default function FixedNavigation({
           <div className="pointer-events-auto flex min-w-0 max-w-[min(100%,40rem)] flex-wrap items-center justify-end gap-2">
             <StarCounter />
             <LanguageSwitcher />
-            <Link
-              href="/postcards"
-              aria-current={isPostcards ? "page" : undefined}
-              className="nav-chip type-ui"
-            >
-              <span className="md:hidden">{t("nav.postcardsShort")}</span>
-              <span className="hidden md:inline">{t("nav.postcards")}</span>
-            </Link>
+            {variant !== "cover" ? (
+              <Link
+                href="/postcards"
+                aria-current={isPostcards ? "page" : undefined}
+                className="nav-chip type-ui"
+              >
+                <span className="md:hidden">{t("nav.postcardsShort")}</span>
+                <span className="hidden md:inline">{t("nav.postcards")}</span>
+              </Link>
+            ) : null}
             {showSectionNav && (
               <nav
                 className={variant === "matching" ? "hidden md:block" : ""}
@@ -81,7 +77,7 @@ export default function FixedNavigation({
                     <Link
                       href="/interactive/color-the-mural"
                       aria-current={isInteractive ? "page" : undefined}
-                      className={navLinkClass(isInteractive)}
+                      className="nav-chip type-ui"
                     >
                       {t("nav.interactive")}
                     </Link>
@@ -96,7 +92,7 @@ export default function FixedNavigation({
                             type="button"
                             onClick={() => onNavClick(item.id)}
                             aria-current={isActive ? "true" : undefined}
-                            className={navLinkClass(isActive)}
+                            className="nav-chip type-ui"
                           >
                             {label}
                           </button>
@@ -105,10 +101,7 @@ export default function FixedNavigation({
                     }
                     return (
                       <li key={item.id}>
-                        <Link
-                          href="/?view=map"
-                          className={navLinkClass(false)}
-                        >
+                        <Link href="/?view=map" className="nav-chip type-ui">
                           {label}
                         </Link>
                       </li>

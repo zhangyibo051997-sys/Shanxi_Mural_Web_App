@@ -184,4 +184,9 @@ export const postcards: Record<string, LText> = {
     en: "Yongle Palace · Chaoyuan Assembly",
     it: "Palazzo Yongle · Assemblea Chaoyuan",
   },
+  公主寺_引路菩萨: {
+    zh: "公主寺 · 引路菩萨",
+    en: "Gongzhu Temple · Guide Bodhisattva",
+    it: "Tempio Gongzhu · Bodhisattva guida",
+  },
 };

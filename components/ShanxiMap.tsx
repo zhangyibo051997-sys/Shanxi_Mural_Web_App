@@ -114,6 +114,29 @@ function clampZoom(k: number) {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, k));
 }
 
+function pinLabelOffset(
+  preset: { dx: number; dy: number; anchor: "start" | "middle" | "end" },
+  radius: number,
+  fontSize: number,
+  lineIndex: number,
+  lineCount: number,
+  lineHeight: number
+) {
+  const gap = 8;
+  if (preset.dy > 0) {
+    return {
+      x: preset.dx,
+      y: radius + gap + fontSize + lineIndex * lineHeight,
+      anchor: preset.anchor,
+    };
+  }
+  return {
+    x: preset.dx,
+    y: -(radius + gap) - (lineCount - 1 - lineIndex) * lineHeight,
+    anchor: preset.anchor,
+  };
+}
+
 function wrapMapLabel(name: string, maxChars: number): string[] {
   if (name.length <= maxChars) return [name];
   const words = name.split(/\s+/).filter(Boolean);
@@ -297,6 +320,31 @@ export default function ShanxiMap({
       };
     });
   }, [projection]);
+
+  const labeledCities = useMemo(() => {
+    if (!cityPaths.length || !markers.length) return cityPaths;
+    const pins = markers.filter((marker) => isMuralTemple(marker.id));
+    return cityPaths.map((city) => {
+      let labelX = city.labelX;
+      let labelY = city.labelY;
+      for (const pin of pins) {
+        if (templePrefecture[pin.id] !== city.name) continue;
+        const dx = labelX - pin.x;
+        const dy = labelY - pin.y;
+        const dist = Math.hypot(dx, dy);
+        const minDist = 48;
+        if (dist >= minDist) continue;
+        if (dist < 1) {
+          labelY = pin.y - minDist;
+        } else {
+          const scale = minDist / dist;
+          labelX = pin.x + dx * scale;
+          labelY = pin.y + dy * scale;
+        }
+      }
+      return { ...city, labelX, labelY };
+    });
+  }, [cityPaths, markers]);
 
   const zoomToMarker = useCallback(
     (marker: Marker, animate: boolean) => {
@@ -657,7 +705,7 @@ export default function ShanxiMap({
             </defs>
 
             <g ref={regionsRef}>
-              {[...cityPaths]
+              {[...labeledCities]
                 .sort((a, b) => a.labelY - b.labelY)
                 .map((city, index) => {
                   const highlighted =
@@ -796,6 +844,26 @@ export default function ShanxiMap({
                       : isOpen
                         ? 6.5
                         : 4.2;
+                const labelFont =
+                  isFocused
+                    ? locale === "zh"
+                      ? 15
+                      : 12
+                    : featured
+                      ? locale === "zh"
+                        ? 14
+                        : 11.5
+                      : isOpen
+                        ? locale === "zh"
+                          ? 12.5
+                          : 10.5
+                        : 9;
+                const labelLines = wrapMapLabel(
+                  locTemplePinName(locale, m),
+                  locale === "zh" ? 8 : 18
+                );
+                const lineHeight = isFocused ? 14 : 12;
+                const clearR = featured ? 32 : isOpen ? 20 : r + 6;
 
                 return (
                   <g
@@ -881,16 +949,21 @@ export default function ShanxiMap({
                     />
 
                     <g aria-hidden="true">
-                      {wrapMapLabel(locTemplePinName(locale, m), locale === "zh" ? 8 : 18).map(
-                        (line, lineIndex) => (
+                      {labelLines.map((line, lineIndex) => {
+                        const place = pinLabelOffset(
+                          offset,
+                          clearR,
+                          labelFont,
+                          lineIndex,
+                          labelLines.length,
+                          lineHeight
+                        );
+                        return (
                           <text
                             key={line}
-                            x={offset.dx}
-                            y={
-                              (isFocused ? offset.dy - 4 : offset.dy) +
-                              lineIndex * (isFocused ? 14 : 12)
-                            }
-                            textAnchor={offset.anchor}
+                            x={place.x}
+                            y={place.y}
+                            textAnchor={place.anchor}
                             className="pointer-events-none select-none"
                             fill={
                               isFocused
@@ -899,21 +972,7 @@ export default function ShanxiMap({
                                   ? "#213338"
                                   : "rgb(33 51 56 / 40%)"
                             }
-                            fontSize={
-                              isFocused
-                                ? locale === "zh"
-                                  ? 15
-                                  : 12
-                                : featured
-                                  ? locale === "zh"
-                                    ? 14
-                                    : 11.5
-                                  : isOpen
-                                    ? locale === "zh"
-                                      ? 12.5
-                                      : 10.5
-                                    : 9
-                            }
+                            fontSize={labelFont}
                             fontWeight={isFocused || featured ? 600 : 400}
                             style={{
                               fontFamily:
@@ -922,8 +981,8 @@ export default function ShanxiMap({
                           >
                             {line}
                           </text>
-                        )
-                      )}
+                        );
+                      })}
                     </g>
                   </g>
                 );

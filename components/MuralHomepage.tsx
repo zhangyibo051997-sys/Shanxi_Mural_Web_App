@@ -85,7 +85,7 @@ export default function MuralHomepage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [exploreSession, setExploreSession] = useState(0);
   const [coverGeneration, setCoverGeneration] = useState(0);
-  const { progress, redeemPostcard } = useGameProgress();
+  const { progress, redeemPostcard, resetFigureAwards } = useGameProgress();
   const [postcardAssets, setPostcardAssets] = useState<PostcardAsset[]>(
     FALLBACK_POSTCARDS
   );
@@ -254,7 +254,12 @@ export default function MuralHomepage() {
     pendingFocusRef.current = null;
     setCoverGeneration((generation) => generation + 1);
     setPhase("cover");
-  }, []);
+    resetFigureAwards();
+  }, [resetFigureAwards]);
+
+  useEffect(() => {
+    if (phase === "cover") resetFigureAwards();
+  }, [phase, resetFigureAwards]);
 
   useEffect(() => {
     let cancelled = false;

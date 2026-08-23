@@ -25,14 +25,15 @@ export default function PostcardReward({
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[90] flex items-center justify-center bg-ink/40 px-5">
+    <div className="fixed inset-0 z-[90] overflow-y-auto bg-ink/40 px-5 py-8">
+      <div className="flex min-h-full items-center justify-center">
       <div
         ref={cardRef}
         role="dialog"
         aria-modal="true"
         aria-label={t("postcard.congratsAria")}
         tabIndex={-1}
-        className="surface-card relative w-[calc(100vw-32px)] max-w-[400px] rounded p-8 text-center shadow-overlay"
+        className="surface-card relative my-auto w-[calc(100vw-32px)] max-h-[calc(100svh-4rem)] max-w-[400px] overflow-y-auto rounded px-6 py-6 text-center shadow-overlay md:px-8 md:py-7"
       >
         <p className="type-meta text-gold">
           {t("postcard.rewardEyebrow")}
@@ -47,7 +48,7 @@ export default function PostcardReward({
           <img
             src={postcard.src}
             alt={locCollectedTitle(locale, postcard.id, postcard.title)}
-            className="h-auto w-full object-contain"
+            className="mx-auto max-h-[min(42svh,280px)] w-auto max-w-full object-contain"
           />
         </div>
         <p className="type-card mt-3">
@@ -63,6 +64,7 @@ export default function PostcardReward({
         >
           {alreadyCollected ? t("postcard.continue") : t("postcard.collect")}
         </button>
+      </div>
       </div>
     </div>
   );

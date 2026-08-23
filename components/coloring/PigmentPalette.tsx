@@ -41,7 +41,7 @@ export default function PigmentPalette({
     return (
       <div className="w-full">
         <div
-          className="flex gap-3 overflow-x-auto px-1 py-2"
+          className="flex flex-wrap justify-center gap-2 px-1 py-2"
           role="listbox"
           aria-label="矿物颜料"
         >
@@ -51,6 +51,7 @@ export default function PigmentPalette({
                 color={color}
                 selected={color.id === selectedId}
                 interactive={interactive}
+                showName
                 dimmed={
                   usedValues
                     ? !usedValues.has(color.value.toLowerCase())
@@ -65,6 +66,22 @@ export default function PigmentPalette({
           <p className="type-meta mt-2 text-center text-ink/70">
             {selected.nameZh} · {selected.nameEn}
           </p>
+        )}
+        {showList && (
+          <ul className="mt-3 grid w-full grid-cols-2 gap-x-4 gap-y-1.5 [@media(max-height:760px)]:hidden">
+            {palette.map((color) => (
+              <li key={color.id} className="flex items-center gap-2">
+                <span
+                  className="h-2.5 w-2.5 shrink-0 rounded-full border border-ink/15"
+                  style={{ backgroundColor: color.value }}
+                />
+                <span className="type-meta text-ink/80">
+                  {color.nameZh}{" "}
+                  <span className="text-stone">{color.nameEn}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     );

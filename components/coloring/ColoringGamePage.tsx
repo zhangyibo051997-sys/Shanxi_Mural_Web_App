@@ -8,6 +8,7 @@ import CollectPostcardButton from "@/components/coloring/CollectPostcardButton";
 import ColoringHeader from "@/components/coloring/ColoringHeader";
 import ColoringTools from "@/components/coloring/ColoringTools";
 import ConfirmDialog from "@/components/coloring/ConfirmDialog";
+import CulturalHints from "@/components/coloring/CulturalHints";
 import FinishColoringButton from "@/components/coloring/FinishColoringButton";
 import LineArtCanvas, {
   type LineArtCanvasHandle,
@@ -67,6 +68,7 @@ export default function ColoringGamePage() {
   const [showCollect, setShowCollect] = useState(false);
   const [postcardPreview, setPostcardPreview] = useState<string | null>(null);
   const [generatingPostcard, setGeneratingPostcard] = useState(false);
+  const [paintSnapshot, setPaintSnapshot] = useState<string | null>(null);
 
   const regions = artwork?.regions ?? [];
   const selectedColor =
@@ -182,14 +184,20 @@ export default function ColoringGamePage() {
     };
   }, [reducedMotion, stage]);
 
+  const persistPaint = useCallback(() => {
+    const snapshot = canvasRef.current?.snapshotPaint();
+    if (snapshot) setPaintSnapshot(snapshot);
+  }, []);
+
   const enterComparison = useCallback(() => {
+    persistPaint();
     if (!reducedMotion) {
       pendingFlip.current = Flip.getState(
         "[data-coloring-canvas], [data-coloring-palette]"
       );
     }
     setStage("comparison");
-  }, [reducedMotion]);
+  }, [persistPaint, reducedMotion]);
 
   const handleFinish = () => {
     if (completion < 0.6) {
@@ -200,6 +208,7 @@ export default function ColoringGamePage() {
   };
 
   const handleEditAgain = () => {
+    persistPaint();
     if (!reducedMotion) {
       pendingFlip.current = Flip.getState(
         "[data-coloring-canvas], [data-coloring-palette]"
@@ -247,7 +256,7 @@ export default function ColoringGamePage() {
     return (
       <div className="coloring-root coloring-root--locked relative min-h-svh bg-parchment">
         <TextureBackground />
-        <FixedNavigation instructionKey="color.headerHint" />
+        <FixedNavigation />
         <p className="type-body pt-32 text-center text-ink/70">
           {t("color.loading")}
         </p>
@@ -255,184 +264,187 @@ export default function ColoringGamePage() {
     );
   }
 
+  const canvasNode = (
+    <div
+      data-coloring-canvas
+      className={`relative rounded-[2px] border border-[var(--color-border)] bg-rice ${
+        isColoring
+          ? "h-[min(42svh,320px)] md:absolute md:inset-0 md:h-auto"
+          : "h-[min(48svh,420px)] min-h-[240px] w-full shrink-0"
+      }`}
+    >
+      <LineArtCanvas
+        ref={canvasRef}
+        lineArtUrl={artwork.lineArtUrl}
+        figureName={artwork.figureName}
+        templeName={artwork.templeName}
+        regions={regions}
+        regionColors={regionColors}
+        selectedColor={selectedColor}
+        interactive={isColoring}
+        paintSnapshot={paintSnapshot}
+        mode={mode}
+        tool={tool}
+        sizeId={sizeId}
+        onFillRegion={(regionId) => fillRegion(regionId, selectedColor)}
+        onRegionColorsChange={restoreColors}
+        onHistoryChange={setPaintHistory}
+      />
+      {isColoring ? (
+        <CanvasControls
+          canUndo={paintHistory.canUndo}
+          onUndo={() => canvasRef.current?.undo()}
+          onClear={() => setConfirmClear(true)}
+        />
+      ) : null}
+    </div>
+  );
+
+  const renderTools = () => (
+    <ColoringTools
+      mode={mode}
+      tool={tool}
+      sizeId={sizeId}
+      onModeChange={setMode}
+      onToolChange={setTool}
+      onSizeChange={setSizeId}
+      onFit={() => canvasRef.current?.fitView()}
+    />
+  );
+
   return (
     <div
-      className={`coloring-root relative bg-parchment ${
+      className={`coloring-root relative flex bg-parchment ${
         locked
-          ? "coloring-root--locked h-svh overflow-hidden"
-          : "min-h-svh overflow-y-auto"
+          ? "coloring-root--locked h-svh flex-col overflow-hidden"
+          : "min-h-svh flex-col overflow-y-auto"
       }`}
     >
       <TextureBackground />
-      <FixedNavigation
-        instructionKey={
-          isColoring ? "color.headerHint" : "color.compareHint"
-        }
-      />
-      <ColoringHeader stage={stage} />
-
-      <main
-        className={`relative z-10 mx-auto flex min-h-0 w-full max-w-[1600px] flex-1 flex-col px-4 pb-8 pt-3 md:px-8 ${
-          locked ? "h-[calc(100svh-7.5rem)]" : ""
+      <FixedNavigation />
+      <div
+        className={`relative z-10 flex min-h-0 flex-1 flex-col ${
+          locked ? "overflow-hidden" : ""
         }`}
       >
-        <div
-          className={
-            isColoring
-              ? "flex min-h-0 flex-1 flex-col gap-4 md:grid md:grid-cols-[minmax(0,1.6fr)_minmax(0,0.85fr)] md:items-stretch md:gap-x-[6%]"
-              : "grid grid-cols-1 items-start gap-8 md:grid-cols-2 md:gap-x-6 lg:grid-cols-[minmax(0,0.37fr)_minmax(0,0.37fr)_minmax(0,0.22fr)] lg:gap-x-0"
-          }
-        >
-          {stage === "comparison" && similarity && (
-            <div className="border-ink/10 lg:border-r lg:px-6">
-              <OriginalMuralPanel
-                originalUrl={artwork.originalUrl}
-                figureName={artwork.figureName}
-                templeName={artwork.templeName}
-                stars={similarity.stars}
-                incomplete={similarity.incomplete}
-                revealStars={revealStars}
-              />
-            </div>
-          )}
+        <div className="h-16 shrink-0 md:h-[72px]" aria-hidden />
+        <ColoringHeader stage={stage} />
 
-          <section className="relative flex min-h-0 flex-col lg:px-6">
-            {stage === "comparison" && (
-              <h2 className="type-section mb-6 text-center">
-                {t("color.yourColoring")}
-              </h2>
-            )}
-            <div
-              data-coloring-canvas
-              className={`relative rounded-[2px] border border-[var(--color-border)] bg-rice ${
-                isColoring
-                  ? "min-h-[46svh] flex-1 md:min-h-0"
-                  : "h-[min(48svh,420px)] min-h-[240px] w-full shrink-0"
-              }`}
-            >
-              <LineArtCanvas
-                ref={canvasRef}
-                lineArtUrl={artwork.lineArtUrl}
-                figureName={artwork.figureName}
-                templeName={artwork.templeName}
-                regions={regions}
-                regionColors={regionColors}
-                selectedColor={selectedColor}
-                interactive={isColoring}
-                mode={mode}
-                tool={tool}
-                sizeId={sizeId}
-                onFillRegion={(regionId) => fillRegion(regionId, selectedColor)}
-                onRegionColorsChange={restoreColors}
-                onHistoryChange={setPaintHistory}
-              />
-              {isColoring && (
-                <CanvasControls
-                  canUndo={paintHistory.canUndo}
-                  onUndo={() => canvasRef.current?.undo()}
-                  onClear={() => setConfirmClear(true)}
-                />
-              )}
-            </div>
-            {stage === "comparison" && (
-              <div
-                className={`flex shrink-0 flex-col items-center pb-2 transition-opacity duration-500 ${
-                  showCollect ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <CollectPostcardButton
-                  collected={isCollected}
-                  onClick={() => {
-                    void handleCollect();
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={handleEditAgain}
-                  className="btn-tertiary mt-2"
+        {isColoring ? (
+          <main className="relative mx-auto min-h-0 w-full max-w-[1600px] flex-1">
+            <div className="absolute inset-0 flex flex-col overflow-y-auto px-4 pb-3 pt-1 md:overflow-hidden md:px-8">
+              <div className="grid min-h-0 flex-none grid-cols-1 gap-4 md:h-0 md:flex-1 md:grid-cols-[minmax(0,1.6fr)_minmax(0,0.85fr)] md:gap-x-[6%] md:overflow-hidden">
+                <section className="relative h-[min(42svh,320px)] md:h-auto md:min-h-0">
+                  {canvasNode}
+                </section>
+                <section
+                  data-coloring-palette
+                  className="hidden min-h-0 flex-col items-center overflow-y-auto overscroll-contain border-[rgb(33_51_56_/_18%)] md:flex md:border-l md:px-6 md:py-2"
                 >
-                  {t("color.editAgain")}
-                </button>
+                  <p className="type-meta mb-2 w-full max-w-sm text-ink/70">
+                    {t("color.pigments")}
+                  </p>
+                  <PigmentPalette
+                    palette={artwork.palette}
+                    selectedId={selectedColorId}
+                    interactive
+                    compact
+                    showList
+                    onSelect={(color) => setSelectedColorId(color.id)}
+                  />
+                  <label className="type-ui mt-2 flex min-h-11 items-center gap-2 text-ink/70">
+                    <input
+                      type="color"
+                      value={selectedColor}
+                      onChange={(event) => {
+                        setCustomColor(event.target.value);
+                        setSelectedColorId("custom");
+                      }}
+                      className="h-7 w-7 cursor-pointer border border-ink/15 bg-transparent p-0"
+                      aria-label={t("color.custom")}
+                    />
+                    {t("color.custom")}
+                  </label>
+                  {renderTools()}
+                  <CulturalHints />
+                </section>
               </div>
-            )}
-          </section>
-
-          <section
-            data-coloring-palette
-            className={`flex min-h-0 flex-col items-center overflow-visible border-[rgb(33_51_56_/_18%)] ${
-              isColoring
-                ? "justify-start overflow-y-auto md:border-l md:p-6"
-                : "justify-start md:col-span-2 lg:col-span-1 lg:border-l lg:px-6"
-            } ${isColoring ? "hidden md:flex" : ""}`}
-          >
-            {isColoring && (
-              <ColoringTools
-                mode={mode}
-                tool={tool}
-                sizeId={sizeId}
-                onModeChange={setMode}
-                onToolChange={setTool}
-                onSizeChange={setSizeId}
-                onFit={() => canvasRef.current?.fitView()}
-              />
-            )}
-            {stage === "comparison" && (
-              <h2 className="type-section mb-6">
-                {t("color.yourPalette")}
-              </h2>
-            )}
-            <PigmentPalette
-              palette={artwork.palette}
-              selectedId={selectedColorId}
-              usedValues={stage === "comparison" ? usedValues : undefined}
-              interactive={isColoring}
-              showList={!isColoring}
-              onSelect={(color) => setSelectedColorId(color.id)}
-            />
-            {isColoring && (
-              <label className="type-ui mt-4 flex min-h-11 items-center gap-2 text-ink/70">
-                <input
-                  type="color"
-                  value={selectedColor}
-                  onChange={(event) => {
-                    setCustomColor(event.target.value);
-                    setSelectedColorId("custom");
-                  }}
-                  className="h-7 w-7 cursor-pointer border border-ink/15 bg-transparent p-0"
-                  aria-label={t("color.custom")}
+              <div className="mt-3 shrink-0 border-t border-ink/10 pt-3 md:hidden">
+                <p className="type-meta mb-2 text-ink/70">{t("color.pigments")}</p>
+                <PigmentPalette
+                  palette={artwork.palette}
+                  selectedId={selectedColorId}
+                  interactive
+                  compact
+                  showList
+                  onSelect={(color) => setSelectedColorId(color.id)}
                 />
-                {t("color.custom")}
-              </label>
-            )}
-          </section>
-        </div>
-
-        {isColoring && (
-          <>
-            <div className="mt-3 border-t border-ink/10 pt-3 md:hidden">
-              <ColoringTools
-                mode={mode}
-                tool={tool}
-                sizeId={sizeId}
-                onModeChange={setMode}
-                onToolChange={setTool}
-                onSizeChange={setSizeId}
-                onFit={() => canvasRef.current?.fitView()}
-              />
-              <PigmentPalette
-                palette={artwork.palette}
-                selectedId={selectedColorId}
-                interactive
-                compact
-                onSelect={(color) => setSelectedColorId(color.id)}
-              />
+                {renderTools()}
+                <CulturalHints />
+              </div>
+              <div className="flex shrink-0 justify-center pb-1 pt-2 md:pt-3">
+                <FinishColoringButton onClick={handleFinish} />
+              </div>
             </div>
-            <div className="flex shrink-0 justify-center pb-2 pt-3 md:pt-4">
-              <FinishColoringButton onClick={handleFinish} />
+          </main>
+        ) : (
+          <main className="relative mx-auto flex min-h-0 w-full max-w-[1600px] flex-1 flex-col px-4 pb-8 pt-1 md:px-8">
+            <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-2 md:gap-x-6 lg:grid-cols-[minmax(0,0.37fr)_minmax(0,0.37fr)_minmax(0,0.22fr)] lg:gap-x-0">
+              {similarity ? (
+                <div className="border-ink/10 lg:border-r lg:px-6">
+                  <OriginalMuralPanel
+                    originalUrl={artwork.originalUrl}
+                    figureName={artwork.figureName}
+                    templeName={artwork.templeName}
+                    stars={similarity.stars}
+                    incomplete={similarity.incomplete}
+                    revealStars={revealStars}
+                  />
+                </div>
+              ) : null}
+              <section className="relative flex min-h-0 flex-col lg:px-6">
+                <h2 className="type-section mb-6 text-center">
+                  {t("color.yourColoring")}
+                </h2>
+                {canvasNode}
+                <div
+                  className={`flex shrink-0 flex-col items-center pb-2 transition-opacity duration-500 ${
+                    showCollect ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <CollectPostcardButton
+                    collected={isCollected}
+                    onClick={() => {
+                      void handleCollect();
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleEditAgain}
+                    className="btn-tertiary mt-2"
+                  >
+                    {t("color.editAgain")}
+                  </button>
+                </div>
+              </section>
+              <section
+                data-coloring-palette
+                className="flex min-h-0 flex-col items-center justify-start md:col-span-2 lg:col-span-1 lg:border-l lg:border-[rgb(33_51_56_/_18%)] lg:px-6"
+              >
+                <h2 className="type-section mb-6">{t("color.yourPalette")}</h2>
+                <PigmentPalette
+                  palette={artwork.palette}
+                  selectedId={selectedColorId}
+                  usedValues={usedValues}
+                  interactive={false}
+                  showList
+                  onSelect={(color) => setSelectedColorId(color.id)}
+                />
+              </section>
             </div>
-          </>
+          </main>
         )}
-      </main>
+      </div>
 
       {restorePrompt && (
         <ConfirmDialog
@@ -443,6 +455,7 @@ export default function ColoringGamePage() {
           onCancel={() => {
             clearSave();
             restoreColors({});
+            setPaintSnapshot(null);
             canvasRef.current?.restoreFromRegionColors({});
           }}
           onConfirm={() => {

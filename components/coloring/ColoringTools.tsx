@@ -28,9 +28,9 @@ export default function ColoringTools({
   const { t } = useLocale();
 
   return (
-    <div className="mb-6 w-full max-w-sm shrink-0 space-y-6">
+    <div className="mb-3 w-full max-w-sm shrink-0 space-y-3">
       <div>
-        <p className="type-meta mb-2 font-semibold text-ink/70">
+        <p className="type-meta mb-1.5 font-semibold text-ink/70">
           {t("color.ops")}
         </p>
         <div className="flex gap-2">
@@ -55,13 +55,13 @@ export default function ColoringTools({
             {t("color.pan")}
           </button>
         </div>
-        <p className="type-caption mt-2 text-ink/70">
+        <p className="type-caption mt-1.5 text-ink/70 [@media(max-height:700px)]:hidden">
           {mode === "pan" ? t("color.panHint") : t("color.paintHint")}
         </p>
       </div>
 
       <div className={mode === "pan" ? "opacity-40" : ""}>
-        <p className="type-meta mb-2 font-semibold text-ink/70">
+        <p className="type-meta mb-1.5 font-semibold text-ink/70">
           {t("color.stroke")}
         </p>
         <div className="flex gap-2">
@@ -91,7 +91,7 @@ export default function ColoringTools({
       </div>
 
       <div className={mode === "pan" ? "opacity-40" : ""}>
-        <p className="type-meta mb-2 font-semibold text-ink/70">
+        <p className="type-meta mb-1.5 font-semibold text-ink/70">
           {t("color.size")}
         </p>
         <div className="flex gap-2">
