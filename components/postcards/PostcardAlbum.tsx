@@ -81,7 +81,11 @@ export default function PostcardAlbum() {
                       <img
                         src={card.src}
                         alt={locCollectedTitle(locale, card.id, card.title)}
-                        className="aspect-[3/2] w-full bg-parchment/80 object-contain"
+                        className={`w-full bg-parchment/80 object-contain ${
+                          card.orientation === "portrait"
+                            ? "mx-auto max-h-[320px] aspect-[3/4]"
+                            : "aspect-[3/2]"
+                        }`}
                       />
                       <span className="type-card block px-4 py-3">
                         {locCollectedTitle(locale, card.id, card.title)}
@@ -206,7 +210,12 @@ export default function PostcardAlbum() {
               role="dialog"
               aria-modal="true"
               aria-label={active.item.title}
-              className="surface-card relative my-auto w-[calc(100vw-32px)] max-h-[calc(100svh-4rem)] max-w-[400px] overflow-y-auto rounded px-6 py-6 text-center shadow-overlay md:px-8 md:py-7"
+              className={`surface-card relative my-auto w-[calc(100vw-32px)] max-h-[calc(100svh-4rem)] overflow-y-auto rounded px-6 py-6 text-center shadow-overlay md:px-8 md:py-7 ${
+                active.kind === "postcard" &&
+                active.item.orientation === "portrait"
+                  ? "max-w-[360px]"
+                  : "max-w-[min(92vw,520px)]"
+              }`}
               onClick={(event) => event.stopPropagation()}
             >
               <button
@@ -231,7 +240,9 @@ export default function PostcardAlbum() {
                   className={
                     active.kind === "sticker"
                       ? "max-h-[min(36svh,240px)] w-auto max-w-full object-contain"
-                      : "mx-auto max-h-[min(40svh,280px)] w-auto max-w-full border border-stone/15 object-contain"
+                      : active.item.orientation === "portrait"
+                        ? "mx-auto max-h-[min(52svh,420px)] w-auto max-w-full border border-stone/15 object-contain"
+                        : "mx-auto max-h-[min(40svh,280px)] w-auto max-w-full border border-stone/15 object-contain"
                   }
                 />
               </div>
@@ -252,7 +263,7 @@ export default function PostcardAlbum() {
                   fileName:
                     active.kind === "sticker"
                       ? active.item.fileName
-                      : fileNameFromSrc(active.item.src, `${active.item.id}.svg`),
+                      : fileNameFromSrc(active.item.src, `${active.item.id}.png`),
                 }}
               />
               <button

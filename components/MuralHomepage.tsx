@@ -294,6 +294,7 @@ export default function MuralHomepage() {
         src: pendingPostcard.src,
         title: pendingPostcard.title,
         collectedAt: new Date().toISOString(),
+        orientation: pendingPostcard.orientation,
       });
     }
     setPendingPostcard(null);

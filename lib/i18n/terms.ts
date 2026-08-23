@@ -169,20 +169,20 @@ export const coloringRegions: Record<string, LText> = {
 };
 
 export const postcards: Record<string, LText> = {
-  水神堂_龙母出宫降雨图: {
-    zh: "水神堂 · 龙母出宫降雨图",
-    en: "Water God Temple · Dragon Mother Departs to Bring Rain",
-    it: "Tempio del Dio dell'Acqua · La Madre Drago esce a portare la pioggia",
+  水神堂_龙王降雨图: {
+    zh: "水神堂 · 龙王降雨图",
+    en: "Water God Hall · Dragon King Brings Rain",
+    it: "Shuishen Tang · Il Re Drago porta la pioggia",
   },
   多福寺_佛传故事: {
     zh: "多福寺 · 佛传故事",
     en: "Duofu Temple · Life of the Buddha",
     it: "Tempio Duofu · Vita del Buddha",
   },
-  永乐宫_朝元图: {
-    zh: "永乐宫 · 朝元图",
-    en: "Yongle Palace · Chaoyuan Assembly",
-    it: "Palazzo Yongle · Assemblea Chaoyuan",
+  永安寺_撕面明王: {
+    zh: "永安寺 · 撕面明王",
+    en: "Yong'an Temple · Face-Tearing Wisdom King",
+    it: "Tempio Yong'an · Re della Saggezza che si lacera il volto",
   },
   公主寺_引路菩萨: {
     zh: "公主寺 · 引路菩萨",

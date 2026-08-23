@@ -33,7 +33,11 @@ export default function PostcardReward({
         aria-modal="true"
         aria-label={t("postcard.congratsAria")}
         tabIndex={-1}
-        className="surface-card relative my-auto w-[calc(100vw-32px)] max-h-[calc(100svh-4rem)] max-w-[400px] overflow-y-auto rounded px-6 py-6 text-center shadow-overlay md:px-8 md:py-7"
+        className={`surface-card relative my-auto w-[calc(100vw-32px)] max-h-[calc(100svh-4rem)] overflow-y-auto rounded px-6 py-6 text-center shadow-overlay md:px-8 md:py-7 ${
+          postcard.orientation === "portrait"
+            ? "max-w-[360px]"
+            : "max-w-[min(92vw,520px)]"
+        }`}
       >
         <p className="type-meta text-gold">
           {t("postcard.rewardEyebrow")}
@@ -48,7 +52,11 @@ export default function PostcardReward({
           <img
             src={postcard.src}
             alt={locCollectedTitle(locale, postcard.id, postcard.title)}
-            className="mx-auto max-h-[min(42svh,280px)] w-auto max-w-full object-contain"
+            className={`mx-auto w-auto max-w-full object-contain ${
+              postcard.orientation === "portrait"
+                ? "max-h-[min(48svh,360px)]"
+                : "max-h-[min(36svh,280px)]"
+            }`}
           />
         </div>
         <p className="type-card mt-3">

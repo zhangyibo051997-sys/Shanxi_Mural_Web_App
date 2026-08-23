@@ -48,7 +48,7 @@ import type {
 type ColoringStage = "coloring" | "comparison";
 
 export default function ColoringGamePage() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const reducedMotion = useReducedMotion();
   const canvasRef = useRef<LineArtCanvasHandle>(null);
   const [artwork, setArtwork] = useState<ColoringArtwork | null>(null);
@@ -234,6 +234,9 @@ export default function ColoringGamePage() {
         templeName: artwork.templeName,
         stars: similarity.stars,
         createdAt,
+        locale,
+        heading: t("color.header"),
+        siteLabel: t("brand.siteSubtitle").toLowerCase(),
       });
       collect({
         id: coloringDataHash(artwork.id, regionColors),

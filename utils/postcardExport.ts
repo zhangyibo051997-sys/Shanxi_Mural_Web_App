@@ -1,8 +1,15 @@
+import type { Locale } from "@/lib/i18n/locales";
 import { canvasToPngDataUrl } from "@/utils/coloringExport";
 
 const POSTCARD_WIDTH = 1080;
 const POSTCARD_HEIGHT = 1350;
-const LOGO_SRC = "/images/Jin_logo.png";
+
+/** 与封面 BrandHeader 一致：中文用 zh 字标，英/意用 en 字标 */
+export function postcardLogoSrc(locale: Locale): string {
+  return locale === "zh"
+    ? "/images/cover-logo-zh.png"
+    : "/images/cover-logo-en.png";
+}
 
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -32,6 +39,25 @@ function drawContainedImage(
   ctx.drawImage(image, dx, dy, drawW, drawH);
 }
 
+function drawBrandLogo(
+  ctx: CanvasRenderingContext2D,
+  logo: HTMLImageElement,
+  x: number,
+  y: number,
+  maxH: number,
+  maxW: number
+) {
+  const naturalW = logo.naturalWidth || logo.width;
+  const naturalH = logo.naturalHeight || logo.height;
+  if (!naturalW || !naturalH) return 0;
+
+  const scale = Math.min(maxH / naturalH, maxW / naturalW);
+  const drawW = naturalW * scale;
+  const drawH = naturalH * scale;
+  ctx.drawImage(logo, x, y, drawW, drawH);
+  return drawH;
+}
+
 export async function exportColoringPostcard(options: {
   artworkCanvas: HTMLCanvasElement;
   title: string;
@@ -40,7 +66,10 @@ export async function exportColoringPostcard(options: {
   stars: number;
   createdAt: Date;
   siteLabel?: string;
+  locale?: Locale;
+  heading?: string;
 }): Promise<string> {
+  const locale = options.locale ?? "zh";
   const canvas = document.createElement("canvas");
   canvas.width = POSTCARD_WIDTH;
   canvas.height = POSTCARD_HEIGHT;
@@ -53,38 +82,34 @@ export async function exportColoringPostcard(options: {
   ctx.fillStyle = "rgb(33 51 56 / 4%)";
   ctx.fillRect(48, 48, POSTCARD_WIDTH - 96, POSTCARD_HEIGHT - 96);
 
+  let contentTop = 168;
   try {
-    const logo = await loadImage(LOGO_SRC);
-    ctx.drawImage(logo, 72, 72, 72, 72);
+    const logo = await loadImage(postcardLogoSrc(locale));
+    const logoH = drawBrandLogo(ctx, logo, 72, 72, 64, 360);
+    contentTop = Math.max(168, 72 + logoH + 36);
   } catch {
     /* logo 加载失败时仍输出明信片 */
   }
 
   ctx.fillStyle = "#213338";
-  ctx.font = "600 28px 'Noto Serif SC', serif";
-  ctx.fillText("看见壁上山西", 164, 104);
-  ctx.font = "500 12px 'IBM Plex Sans', sans-serif";
-  ctx.fillStyle = "#213338";
-  ctx.fillText("JIN MUSEUM", 164, 128);
-
-  ctx.fillStyle = "#213338";
   ctx.font = "600 42px 'Noto Serif SC', serif";
-  ctx.fillText("COLOR THE MURAL", 72, 196);
+  ctx.fillText(options.heading ?? "COLOR THE MURAL", 72, contentTop);
   ctx.font = "22px 'Noto Serif SC', serif";
   ctx.fillStyle = "#B88C57";
   ctx.fillText(
     `${options.templeName} · ${options.figureName}`,
     72,
-    236
+    contentTop + 40
   );
 
+  const artTop = contentTop + 72;
   drawContainedImage(
     ctx,
     options.artworkCanvas,
     72,
-    268,
+    artTop,
     POSTCARD_WIDTH - 144,
-    820,
+    Math.max(640, 1140 - artTop - 24),
     options.artworkCanvas.width,
     options.artworkCanvas.height
   );
