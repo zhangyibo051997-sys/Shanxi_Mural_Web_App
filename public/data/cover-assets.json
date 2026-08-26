@@ -1,0 +1,268 @@
+{
+  "assets": [
+    {
+      "src": "/images/objects/duo_fu_si/%E4%B9%A6%E5%8D%B7_01_%E4%B9%A6%E5%86%8C%E7%AE%97%E7%AD%B9.png",
+      "fileName": "书卷_01_书册算筹.png",
+      "folder": "duo_fu_si",
+      "alt": "书册算筹"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E4%BD%9B_01_%E9%99%8D%E9%AD%94%E6%88%90%E9%81%93%E5%9D%90%E4%BD%9B.png",
+      "fileName": "佛_01_降魔成道坐佛.png",
+      "folder": "duo_fu_si",
+      "alt": "降魔成道坐佛"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E4%BD%9B_02_%E9%9B%AA%E5%B1%B1%E5%85%A5%E5%AE%9A%E5%9D%90%E4%BD%9B.png",
+      "fileName": "佛_02_雪山入定坐佛.png",
+      "folder": "duo_fu_si",
+      "alt": "雪山入定坐佛"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E4%BD%9B_03_%E7%81%AB%E9%BE%99%E9%AD%94%E9%9A%BE%E5%9D%90%E4%BD%9B.png",
+      "fileName": "佛_03_火龙魔难坐佛.png",
+      "folder": "duo_fu_si",
+      "alt": "火龙魔难坐佛"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E5%A4%A9%E4%BA%BA_01_%E4%BA%91%E7%AB%AF%E7%8C%AE%E9%A6%99%E5%A4%A9%E4%BA%BA.png",
+      "fileName": "天人_01_云端献香天人.png",
+      "folder": "duo_fu_si",
+      "alt": "云端献香天人"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E5%A4%A9%E4%BA%BA_02_%E6%8D%A7%E7%9B%98%E5%A4%A9%E5%A5%B3.png",
+      "fileName": "天人_02_捧盘天女.png",
+      "folder": "duo_fu_si",
+      "alt": "捧盘天女"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E5%AD%A6%E5%A0%82_01_%E5%AE%AB%E5%BB%B7%E5%AD%A6%E5%A0%82.png",
+      "fileName": "学堂_01_宫廷学堂.png",
+      "folder": "duo_fu_si",
+      "alt": "宫廷学堂"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E6%9D%BE%E6%A0%91_01_%E9%9B%AA%E5%B1%B1%E5%8F%A4%E6%9D%BE.png",
+      "fileName": "松树_01_雪山古松.png",
+      "folder": "duo_fu_si",
+      "alt": "雪山古松"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E6%A2%B5%E7%8E%8B_01_%E5%AE%AB%E6%AE%BF%E5%9D%90%E5%83%8F.png",
+      "fileName": "梵王_01_宫殿坐像.png",
+      "folder": "duo_fu_si",
+      "alt": "宫殿坐像"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E7%81%AB%E9%BE%99_01.png",
+      "fileName": "火龙_01.png",
+      "folder": "duo_fu_si",
+      "alt": "火龙"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E8%80%B6%E8%BE%93%E9%99%80%E7%BD%97%E5%A4%AB%E4%BA%BA_01_%E5%AE%AB%E4%B8%AD%E5%9D%90%E5%83%8F.png",
+      "fileName": "耶输陀罗夫人_01_宫中坐像.png",
+      "folder": "duo_fu_si",
+      "alt": "宫中坐像"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E8%B5%B0%E8%B1%A1%E5%A5%94%E9%A9%AC_01_%E7%99%BD%E8%B1%A1.png",
+      "fileName": "走象奔马_01_白象.png",
+      "folder": "duo_fu_si",
+      "alt": "白象"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E8%B5%B0%E8%B1%A1%E5%A5%94%E9%A9%AC_02_%E6%A3%95%E8%89%B2%E5%A5%94%E9%A9%AC.png",
+      "fileName": "走象奔马_02_棕色奔马.png",
+      "folder": "duo_fu_si",
+      "alt": "棕色奔马"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E9%AA%91%E9%A9%AC%E6%AD%A6%E5%A3%AB_01_%E7%BB%BF%E8%A2%8D%E7%99%BD%E9%A9%AC%E6%AD%A6%E5%A3%AB.png",
+      "fileName": "骑马武士_01_绿袍白马武士.png",
+      "folder": "duo_fu_si",
+      "alt": "绿袍白马武士"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E9%AA%91%E9%A9%AC%E6%AD%A6%E5%A3%AB_02_%E7%BA%A2%E8%A2%8D%E9%BB%84%E9%A9%AC%E6%AD%A6%E5%A3%AB.png",
+      "fileName": "骑马武士_02_红袍黄马武士.png",
+      "folder": "duo_fu_si",
+      "alt": "红袍黄马武士"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E9%AA%91%E9%A9%AC%E6%AD%A6%E5%A3%AB_03_%E8%93%9D%E8%A2%8D%E6%A3%95%E9%A9%AC%E6%AD%A6%E5%A3%AB.png",
+      "fileName": "骑马武士_03_蓝袍棕马武士.png",
+      "folder": "duo_fu_si",
+      "alt": "蓝袍棕马武士"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E9%AD%94%E4%BC%97_01_%E6%8C%81%E6%9E%AA%E5%A4%A9%E9%AD%94.png",
+      "fileName": "魔众_01_持枪天魔.png",
+      "folder": "duo_fu_si",
+      "alt": "持枪天魔"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E9%AD%94%E4%BC%97_02_%E9%A3%9E%E8%A1%8C%E5%A4%A9%E9%AD%94.png",
+      "fileName": "魔众_02_飞行天魔.png",
+      "folder": "duo_fu_si",
+      "alt": "飞行天魔"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E9%AD%94%E4%BC%97_03_%E5%8F%B3%E4%BE%A7%E9%AD%94%E5%B0%86.png",
+      "fileName": "魔众_03_右侧魔将.png",
+      "folder": "duo_fu_si",
+      "alt": "右侧魔将"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E9%AD%94%E4%BC%97_04_%E5%85%BD%E9%A6%96%E5%B0%8F%E9%AD%94.png",
+      "fileName": "魔众_04_兽首小魔.png",
+      "folder": "duo_fu_si",
+      "alt": "兽首小魔"
+    },
+    {
+      "src": "/images/objects/duo_fu_si/%E9%AD%94%E7%8E%8B_01_%E5%A4%9A%E8%87%82%E9%AD%94%E7%8E%8B.png",
+      "fileName": "魔王_01_多臂魔王.png",
+      "folder": "duo_fu_si",
+      "alt": "多臂魔王"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%87%BA%E5%AE%AB_%E5%9B%9B%E7%9B%AE%E7%A5%9E%E9%87%8F%E9%9B%A8%E5%B0%BA_%E4%BA%BA%E7%89%A9%E6%B3%95%E5%99%A8%E7%BB%84%E5%90%88_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "出宫_四目神量雨尺_人物法器组合_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%87%BA%E5%AE%AB_%E6%8C%81%E5%8F%8C%E9%95%9C%E5%A5%B3%E7%A5%9E_%E7%94%B5%E6%AF%8D%E5%80%99%E9%80%89_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "出宫_持双镜女神_电母候选_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%87%BA%E5%AE%AB_%E6%8C%81%E6%89%87%E4%BE%8D%E5%A5%B301_%E5%8D%95%E4%BD%93%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "出宫_持扇侍女01_单体补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "单体补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%87%BA%E5%AE%AB_%E6%8C%81%E6%89%87%E4%BE%8D%E5%A5%B302_%E5%8D%95%E4%BD%93%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "出宫_持扇侍女02_单体补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "单体补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%87%BA%E5%AE%AB_%E6%8C%81%E7%AC%8F%E6%96%87%E5%AE%9802_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "出宫_持笏文官02_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%87%BA%E5%AE%AB_%E9%9B%B7%E5%85%AC_%E4%BA%BA%E7%89%A9%E6%B3%95%E5%99%A8%E7%BB%84%E5%90%88_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "出宫_雷公_人物法器组合_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%87%BA%E5%AE%AB_%E9%A3%8E%E8%A2%8B%E6%8C%81%E6%9C%89%E7%A5%9E%E7%A5%87_%E5%80%99%E9%80%89%E9%A3%8E%E4%BC%AF_%E7%BB%84%E5%90%88%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "出宫_风袋持有神祇_候选风伯_组合补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "组合补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%87%BA%E5%AE%AB_%E9%AA%91%E4%B9%98%E7%A5%9E%E7%A5%8702_%E7%A5%9E%E9%BE%99%E6%97%97%E5%B9%A1%E7%BB%84%E5%90%88_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "出宫_骑乘神祇02_神龙旗幡组合_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%87%BA%E5%AE%AB_%E9%AA%91%E4%B9%98%E7%A5%9E%E7%A5%8704_%E7%A5%9E%E9%BE%99%E6%97%97%E5%B9%A1%E7%BB%84%E5%90%88_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "出宫_骑乘神祇04_神龙旗幡组合_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%87%BA%E5%AE%AB_%E9%BE%99%E6%AF%8D_%E5%8D%95%E4%BD%93_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "出宫_龙母_单体_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%9B%9E%E5%AE%AB_%E4%B9%A6%E5%88%A4%E8%AE%B0%E5%BD%95%E5%AE%98_%E5%80%99%E9%80%89_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "回宫_书判记录官_候选_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%9B%9E%E5%AE%AB_%E5%9B%9B%E7%9B%AE%E7%A5%9E%E9%87%8F%E9%9B%A8%E5%B0%BA_%E4%BA%BA%E7%89%A9%E6%B3%95%E5%99%A8%E7%BB%84%E5%90%88_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "回宫_四目神量雨尺_人物法器组合_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%9B%9E%E5%AE%AB_%E6%8C%81%E6%89%87%E4%BE%8D%E5%A5%B301_%E5%8D%95%E4%BD%93%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "回宫_持扇侍女01_单体补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "单体补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%9B%9E%E5%AE%AB_%E9%AA%91%E4%B9%98%E7%A5%9E%E7%A5%8702_%E9%A9%AC%E4%BC%9E%E7%9B%96%E9%9A%8F%E4%BB%8E%E7%BB%84%E5%90%88_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "回宫_骑乘神祇02_马伞盖随从组合_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%9B%9E%E5%AE%AB_%E9%AA%91%E4%B9%98%E7%A5%9E%E7%A5%8705_%E9%A9%AC%E7%BB%84%E5%90%88_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "回宫_骑乘神祇05_马组合_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/shui_shen_tang/%E5%9B%9E%E5%AE%AB_%E9%B1%BC%E8%99%BE%E5%85%BD%E9%A6%96%E6%B0%B4%E6%97%8F%E9%83%A8%E4%BC%97%E7%BB%8401_%E8%A1%A5%E5%85%A8%E7%89%88.png",
+      "fileName": "回宫_鱼虾兽首水族部众组01_补全版.png",
+      "folder": "shui_shen_tang",
+      "alt": "补全版"
+    },
+    {
+      "src": "/images/objects/yong_le_gong/01_%E4%BE%9B%E6%A1%88%E4%B8%BB%E7%A5%9E.png",
+      "fileName": "01_供案主神.png",
+      "folder": "yong_le_gong",
+      "alt": "供案主神"
+    },
+    {
+      "src": "/images/objects/yong_le_gong/02_%E5%8D%8E%E7%9B%96%E4%B8%BB%E7%A5%9E.png",
+      "fileName": "02_华盖主神.png",
+      "folder": "yong_le_gong",
+      "alt": "华盖主神"
+    },
+    {
+      "src": "/images/objects/yong_le_gong/03_%E6%8D%A7%E4%BE%9B%E5%99%A8%E5%A5%B3%E7%A5%9E.png",
+      "fileName": "03_捧供器女神.png",
+      "folder": "yong_le_gong",
+      "alt": "捧供器女神"
+    },
+    {
+      "src": "/images/objects/yong_le_gong/04_%E6%8C%81%E5%88%80%E6%8A%A4%E5%8D%AB%E5%8F%8C%E4%BA%BA%E7%BB%84.png",
+      "fileName": "04_持刀护卫双人组.png",
+      "folder": "yong_le_gong",
+      "alt": "持刀护卫双人组"
+    },
+    {
+      "src": "/images/objects/yong_le_gong/05_%E5%9C%86%E5%85%89%E5%A5%B3%E7%A5%9E.png",
+      "fileName": "05_圆光女神.png",
+      "folder": "yong_le_gong",
+      "alt": "圆光女神"
+    },
+    {
+      "src": "/images/objects/yong_le_gong/10_%E5%B1%B1%E4%B8%AD%E5%AF%BA%E9%99%A2%E9%99%A2%E8%90%BD.png",
+      "fileName": "10_山中寺院院落.png",
+      "folder": "yong_le_gong",
+      "alt": "山中寺院院落"
+    },
+    {
+      "src": "/images/objects/yong_le_gong/12_%E7%81%AB%E7%84%B0%E5%AE%9D%E8%88%86.png",
+      "fileName": "12_火焰宝舆.png",
+      "folder": "yong_le_gong",
+      "alt": "火焰宝舆"
+    }
+  ]
+}

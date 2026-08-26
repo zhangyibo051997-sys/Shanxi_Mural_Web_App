@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
-import { listColoringArtworkPairs } from "@/lib/coloringArtworks";
+import coloringManifest from "@/data/generated/coloring-artworks.json";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
 
 export async function GET() {
-  const pairs = await listColoringArtworkPairs();
-  return NextResponse.json({ pairs });
+  return NextResponse.json(coloringManifest);
 }

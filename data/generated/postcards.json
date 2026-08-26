@@ -1,0 +1,32 @@
+{
+  "postcards": [
+    {
+      "id": "公主寺_引路菩萨",
+      "fileName": "公主寺_引路菩萨.png",
+      "title": "公主寺 · 引路菩萨",
+      "src": "/images/postcards/%E5%85%AC%E4%B8%BB%E5%AF%BA_%E5%BC%95%E8%B7%AF%E8%8F%A9%E8%90%A8.png",
+      "orientation": "landscape"
+    },
+    {
+      "id": "水神堂_龙王降雨图",
+      "fileName": "水神堂_龙王降雨图.png",
+      "title": "水神堂 · 龙王降雨图",
+      "src": "/images/postcards/%E6%B0%B4%E7%A5%9E%E5%A0%82_%E9%BE%99%E7%8E%8B%E9%99%8D%E9%9B%A8%E5%9B%BE.png",
+      "orientation": "landscape"
+    },
+    {
+      "id": "多福寺_佛传故事",
+      "fileName": "多福寺_佛传故事.png",
+      "title": "多福寺 · 佛传故事",
+      "src": "/images/postcards/%E5%A4%9A%E7%A6%8F%E5%AF%BA_%E4%BD%9B%E4%BC%A0%E6%95%85%E4%BA%8B.png",
+      "orientation": "portrait"
+    },
+    {
+      "id": "永安寺_撕面明王",
+      "fileName": "永安寺_撕面明王.png",
+      "title": "永安寺 · 撕面明王",
+      "src": "/images/postcards/%E6%B0%B8%E5%AE%89%E5%AF%BA_%E6%92%95%E9%9D%A2%E6%98%8E%E7%8E%8B.png",
+      "orientation": "portrait"
+    }
+  ]
+}

@@ -11,7 +11,9 @@ export function getAssignedCoverElements(): CoverElement[] | null {
 
 async function fetchCoverAssets(): Promise<CoverAsset[]> {
   if (cachedAssets) return cachedAssets;
-  const response = await fetch("/api/cover-assets");
+  const response = await fetch("/data/cover-assets.json", {
+    cache: "force-cache",
+  });
   if (!response.ok) {
     throw new Error(`cover-assets ${response.status}`);
   }

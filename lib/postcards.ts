@@ -50,7 +50,7 @@ function orientationForFile(fileName: string): "landscape" | "portrait" {
 
 export async function fetchPostcardAssets(): Promise<PostcardAsset[]> {
   try {
-    const response = await fetch("/api/postcards", { cache: "no-store" });
+    const response = await fetch("/data/postcards.json", { cache: "force-cache" });
     if (response.ok) {
       const data = (await response.json()) as {
         postcards?: Array<

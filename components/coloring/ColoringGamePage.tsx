@@ -110,7 +110,7 @@ export default function ColoringGamePage() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/coloring-artworks")
+    fetch("/data/coloring-artworks.json")
       .then((response) => response.json())
       .then((data: { pairs?: ColoringArtworkPair[] }) => {
         if (cancelled) return;
