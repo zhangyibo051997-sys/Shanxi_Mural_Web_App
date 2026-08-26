@@ -5,8 +5,8 @@
 
 const MURAL_FILES: Record<string, string[]> = {
   "shui_shen_tang_murals": [
-    "出宫图_4x工作母版.png",
-    "回宫图_4x工作母版.png",
+    "出宫图_4x工作母版.jpg",
+    "回宫图_4x工作母版.jpg",
   ],
   "duo_fu_si_murals": [
     "01_第五十二_魔军害佛.png",
