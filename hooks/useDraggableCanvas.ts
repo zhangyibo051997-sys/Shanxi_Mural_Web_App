@@ -387,7 +387,11 @@ export function useDraggableCanvas({
     panTweenRef.current?.kill();
     panTweenRef.current = null;
     wrapPausedRef.current = false;
-  }, []);
+    stopInertia();
+    gestureActiveRef.current = false;
+    hasDraggedRef.current = false;
+    setIsDragging(false);
+  }, [stopInertia]);
 
   const setZoomAt = useCallback(
     (nextZoom: number, clientX: number, clientY: number) => {

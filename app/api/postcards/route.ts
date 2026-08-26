@@ -1,7 +1,7 @@
 import { readdir } from "fs/promises";
 import path from "path";
 import { NextResponse } from "next/server";
-import { FALLBACK_POSTCARDS } from "@/lib/postcards";
+import { FALLBACK_POSTCARDS, isPostcardBackTemplate } from "@/lib/postcards";
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +28,8 @@ export async function GET() {
       (entry) =>
         entry.isFile() &&
         !entry.name.startsWith(".") &&
-        IMAGE_EXTENSIONS.has(path.extname(entry.name).toLowerCase())
+        IMAGE_EXTENSIONS.has(path.extname(entry.name).toLowerCase()) &&
+        !isPostcardBackTemplate(entry.name)
     )
     .map((entry) => {
       const id = entry.name.replace(/\.[^.]+$/, "");

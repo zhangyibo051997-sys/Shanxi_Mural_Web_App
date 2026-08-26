@@ -11,6 +11,13 @@ export function postcardLogoSrc(locale: Locale): string {
     : "/images/cover-logo-en.png";
 }
 
+/** 明信片翻转背面：中文版 / 英文版完整背面模板 */
+export function postcardBackSrc(locale: Locale): string {
+  return locale === "zh"
+    ? "/images/postcards/back-zh.png"
+    : "/images/postcards/back-en.png";
+}
+
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();

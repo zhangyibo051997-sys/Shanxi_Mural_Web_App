@@ -579,6 +579,59 @@ textarea:focus-visible {
   }
 }
 
+@property --hud-cinnabar-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.hud-badge--cinnabar {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  border-color: rgba(168, 56, 38, 0.48);
+  color: var(--color-vermiglio);
+  box-shadow:
+    0 0 0 1px rgba(255, 220, 210, 0.34),
+    0 0 14px rgba(168, 56, 38, 0.28),
+    0 8px 24px rgb(33 51 56 / 10%);
+}
+
+.hud-badge--cinnabar::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 2px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--hud-cinnabar-angle),
+    rgba(168, 56, 38, 0) 0deg,
+    rgba(168, 56, 38, 0.2) 70deg,
+    rgba(232, 150, 130, 0.95) 108deg,
+    #fff5f2 122deg,
+    rgba(232, 150, 130, 0.95) 136deg,
+    rgba(168, 56, 38, 0.32) 175deg,
+    rgba(168, 56, 38, 0) 230deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: hudCinnabarSweep 2.8s linear infinite;
+}
+
+@keyframes hudCinnabarSweep {
+  to {
+    --hud-cinnabar-angle: 360deg;
+  }
+}
+
 .star-twinkle {
   display: inline-flex;
   animation: starTwinkle 2.8s ease-in-out infinite;
@@ -901,7 +954,6 @@ body:has(.coloring-root--locked) {
   touch-action: none;
   user-select: none;
   will-change: transform;
-  filter: drop-shadow(0 18px 28px rgb(33 51 56 / 22%));
 }
 
 .postcard-3d-face {
@@ -910,13 +962,194 @@ body:has(.coloring-root--locked) {
   overflow: hidden;
   border-radius: 4px;
   border: 1px solid rgb(33 51 56 / 12%);
-  background: var(--color-surface);
+  background: #fff;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  transform: rotateY(0deg);
+  box-shadow: 0 18px 28px rgb(33 51 56 / 22%);
+}
+
+.postcard-3d-face--front {
+  transform: rotateY(0deg);
 }
 
 .postcard-3d-face--back {
   transform: rotateY(180deg);
+  background: #fff;
+}
+
+.postcard-3d-face--back img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: #fff;
+}
+
+.postcard-3d-face--back-portrait img {
+  /* Size + rotate(90deg) applied inline to fit landscape back into portrait face. */
+  width: auto;
+  height: auto;
+  max-width: none;
+  background: #fff;
+}
+
+
+.publication-book-viewport {
+  touch-action: none;
+  user-select: none;
+}
+
+.publication-book {
+  position: relative;
+  perspective: 2200px;
+  perspective-origin: 50% 45%;
+  transform-style: preserve-3d;
+}
+
+.publication-book-base {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  transform-style: preserve-3d;
+}
+
+.publication-book-base--single {
+  display: block;
+}
+
+.publication-book-half {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+.publication-book-spine {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    rgb(33 51 56 / 10%),
+    rgb(33 51 56 / 22%),
+    rgb(33 51 56 / 10%)
+  );
+  z-index: 2;
+}
+
+.publication-leaf {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 6;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.publication-leaf--turn-next {
+  right: 0;
+  transform-origin: left center;
+  animation: publicationTurnNext 780ms cubic-bezier(0.33, 0.1, 0.25, 1) forwards;
+}
+
+.publication-leaf--turn-prev {
+  left: 0;
+  transform-origin: right center;
+  animation: publicationTurnPrev 780ms cubic-bezier(0.33, 0.1, 0.25, 1) forwards;
+}
+
+.publication-leaf-face {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.publication-leaf-face--back {
+  transform: rotateY(180deg);
+}
+
+.publication-leaf-shade {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.publication-leaf-shade--front {
+  background: linear-gradient(
+    90deg,
+    rgb(33 51 56 / 14%) 0%,
+    transparent 42%,
+    transparent 100%
+  );
+  animation: publicationShadeFront 780ms ease-in-out forwards;
+}
+
+.publication-leaf-shade--back {
+  background: linear-gradient(
+    270deg,
+    rgb(33 51 56 / 16%) 0%,
+    transparent 48%,
+    transparent 100%
+  );
+  animation: publicationShadeBack 780ms ease-in-out forwards;
+}
+
+.publication-book--flipping {
+  cursor: grab;
+}
+
+@keyframes publicationTurnNext {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(-180deg);
+  }
+}
+
+@keyframes publicationTurnPrev {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes publicationShadeFront {
+  0% {
+    opacity: 0.15;
+  }
+  45% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0.05;
+  }
+}
+
+@keyframes publicationShadeBack {
+  0% {
+    opacity: 0.55;
+  }
+  55% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0.08;
+  }
 }
 
 .album-rail::-webkit-scrollbar {
@@ -951,6 +1184,11 @@ body:has(.coloring-root--locked) {
   .explore-cta,
   .star-twinkle,
   .star-hud::before,
+  .hud-badge--cinnabar::before,
+  .publication-leaf--turn-next,
+  .publication-leaf--turn-prev,
+  .publication-leaf-shade--front,
+  .publication-leaf-shade--back,
   .hint-bob,
   .hint-fade,
   .mural-slot-visual img,

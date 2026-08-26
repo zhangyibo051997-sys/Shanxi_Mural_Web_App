@@ -20,17 +20,23 @@ const StartExploreButton = forwardRef<HTMLButtonElement, StartExploreButtonProps
         type="button"
         onClick={onClick}
         disabled={disabled}
+        data-explore-cta=""
         data-pressed={pressed ? "true" : "false"}
         className="explore-cta btn-primary h-[52px] w-[248px] flex-col gap-0.5 !rounded-full px-6 data-[pressed=true]:brightness-[0.82] disabled:pointer-events-none"
       >
         <span
+          data-explore-label=""
           lang={isZh ? "zh-CN" : locale === "it" ? "it" : "en"}
           className="type-ui text-on-accent"
         >
           {t("cover.start")}
         </span>
         {isZh ? (
-          <span lang="en" className="type-btn-en text-on-accent/80">
+          <span
+            data-explore-label=""
+            lang="en"
+            className="type-btn-en text-on-accent/80"
+          >
             {t("cover.startHint")}
           </span>
         ) : null}

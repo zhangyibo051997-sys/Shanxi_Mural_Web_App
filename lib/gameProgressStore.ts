@@ -1,4 +1,5 @@
 import { useCallback, useSyncExternalStore } from "react";
+import { isPostcardBackTemplate } from "@/lib/postcards";
 
 export type CollectedPostcard = {
   id: string;
@@ -62,15 +63,20 @@ function parseCollectedPostcards(items: unknown): CollectedPostcard[] {
       return [];
     }
     const record = item as Partial<CollectedPostcard>;
+    const id = record.id as string;
+    // Drop flip-back templates that were wrongly collected as fronts.
+    if (isPostcardBackTemplate(id) || isPostcardBackTemplate(record.src ?? "")) {
+      return [];
+    }
     const orientation =
       record.orientation === "portrait" || record.orientation === "landscape"
         ? record.orientation
         : undefined;
     return [
       {
-        id: record.id as string,
+        id,
         src: record.src as string,
-        title: typeof record.title === "string" ? record.title : (record.id as string),
+        title: typeof record.title === "string" ? record.title : id,
         collectedAt:
           typeof record.collectedAt === "string"
             ? record.collectedAt
@@ -170,6 +176,12 @@ export function getGameProgress(): GameProgress {
 }
 
 export function addCollectedPostcard(postcard: CollectedPostcard): boolean {
+  if (
+    isPostcardBackTemplate(postcard.id) ||
+    isPostcardBackTemplate(postcard.src)
+  ) {
+    return false;
+  }
   const current = getGameProgress();
   if (current.collectedPostcards.some((item) => item.id === postcard.id)) {
     return false;
@@ -243,6 +255,12 @@ export function useGameProgress() {
   );
 
   const redeemPostcard = useCallback((postcard: CollectedPostcard) => {
+    if (
+      isPostcardBackTemplate(postcard.id) ||
+      isPostcardBackTemplate(postcard.src)
+    ) {
+      return;
+    }
     const current = getGameProgress();
     const alreadyCollected = current.collectedPostcards.some(
       (item) => item.id === postcard.id

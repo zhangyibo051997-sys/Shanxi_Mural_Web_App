@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 
 interface OutlineAnimationProps {
@@ -23,7 +23,6 @@ export default function OutlineAnimation({
   const outlineRef = useRef<SVGPathElement | SVGRectElement>(null);
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
-  const clipId = useId();
 
   useEffect(() => {
     const node = outlineRef.current;
@@ -35,17 +34,17 @@ export default function OutlineAnimation({
         : 2 * (width + height);
 
     if (reducedMotion) {
-      gsap.set(node, { strokeDasharray: length, strokeDashoffset: 0, opacity: 1 });
+      gsap.set(node, { strokeDasharray: length, strokeDashoffset: 0 });
       onCompleteRef.current?.();
       return;
     }
 
     const tween = gsap.fromTo(
       node,
-      { strokeDasharray: length, strokeDashoffset: length, opacity: 1 },
+      { strokeDasharray: length, strokeDashoffset: length },
       {
         strokeDashoffset: 0,
-        duration: 0.7,
+        duration: 1.15,
         ease: "power2.inOut",
         onComplete: () => onCompleteRef.current?.(),
       }
@@ -58,32 +57,26 @@ export default function OutlineAnimation({
 
   if (!active) return null;
 
-  const pad = 5;
+  const pad = 8;
 
   return (
     <svg
-      className="pointer-events-none absolute -left-[5px] -top-[5px] overflow-visible"
+      className="pointer-events-none absolute -left-2 -top-2 overflow-visible"
       width={width + pad * 2}
       height={height + pad * 2}
+      shapeRendering="geometricPrecision"
       aria-hidden="true"
     >
-      <defs>
-        <clipPath id={clipId}>
-          {path ? (
-            <path d={path} />
-          ) : (
-            <rect x={pad} y={pad} width={width} height={height} />
-          )}
-        </clipPath>
-      </defs>
       {path ? (
         <path
           ref={outlineRef as React.RefObject<SVGPathElement>}
           d={path}
           fill="none"
           stroke="#A83826"
-          strokeWidth="2"
-          strokeLinecap="round"
+          strokeWidth="4"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
+          vectorEffect="non-scaling-stroke"
         />
       ) : (
         <rect
@@ -94,7 +87,10 @@ export default function OutlineAnimation({
           height={height}
           fill="none"
           stroke="#A83826"
-          strokeWidth="2"
+          strokeWidth="4"
+          strokeLinecap="square"
+          strokeLinejoin="miter"
+          vectorEffect="non-scaling-stroke"
         />
       )}
     </svg>

@@ -7,6 +7,12 @@ export type PostcardAsset = {
   orientation?: "landscape" | "portrait";
 };
 
+/** 翻转背面模板，不可作为可收集正面入池 */
+export function isPostcardBackTemplate(idOrFileName: string): boolean {
+  const id = idOrFileName.replace(/\.[^.]+$/, "").toLowerCase();
+  return id === "back-zh" || id === "back-en" || id.startsWith("back-");
+}
+
 function postcardFromFile(
   fileName: string,
   title: string,
@@ -47,14 +53,20 @@ export async function fetchPostcardAssets(): Promise<PostcardAsset[]> {
     const response = await fetch("/api/postcards", { cache: "no-store" });
     if (response.ok) {
       const data = (await response.json()) as {
-        postcards?: Array<Omit<PostcardAsset, "orientation"> & { orientation?: PostcardAsset["orientation"] }>;
+        postcards?: Array<
+          Omit<PostcardAsset, "orientation"> & {
+            orientation?: PostcardAsset["orientation"];
+          }
+        >;
       };
       if (data.postcards?.length) {
-        return data.postcards.map((item) => ({
-          ...item,
-          orientation:
-            item.orientation ?? orientationForFile(item.fileName),
-        }));
+        return data.postcards
+          .filter((item) => !isPostcardBackTemplate(item.id))
+          .map((item) => ({
+            ...item,
+            orientation:
+              item.orientation ?? orientationForFile(item.fileName),
+          }));
       }
     }
   } catch {
@@ -68,7 +80,10 @@ export function pickRandomPostcard(
   collectedIds: string[]
 ): PostcardAsset | null {
   const poolSource = postcards.length ? postcards : FALLBACK_POSTCARDS;
-  const unused = poolSource.filter((item) => !collectedIds.includes(item.id));
+  const unused = poolSource.filter(
+    (item) =>
+      !isPostcardBackTemplate(item.id) && !collectedIds.includes(item.id)
+  );
   if (unused.length === 0) return null;
   return unused[Math.floor(Math.random() * unused.length)] ?? null;
 }

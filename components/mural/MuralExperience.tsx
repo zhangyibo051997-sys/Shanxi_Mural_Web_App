@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { gsap } from "gsap";
 import CoverIntro from "./CoverIntro";
 import CoverElementField from "./CoverElementField";
@@ -27,6 +28,18 @@ import { useElementSelection } from "@/hooks/useElementSelection";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import type { ElementPose } from "@/hooks/useCoverTransition";
+import {
+  ABOUT_MORPH_OVERLAY_ID,
+  beginAboutReturnExpand,
+  clearAboutReturnExpand,
+  createAboutMorphOverlay,
+  getAboutCardTargetRect,
+  isAboutReturnExpandActive,
+  removeAboutMorphOverlay,
+  shouldAboutReturnExpand,
+  storeAboutButtonRect,
+} from "@/lib/aboutMorph";
+import { playJinMarkMorph } from "@/lib/jinMarkMorph";
 
 export type ExperienceMode = "cover" | "home";
 
@@ -49,6 +62,7 @@ export default function MuralExperience({
   onBackToCover,
   detailOpen,
 }: MuralExperienceProps) {
+  const router = useRouter();
   const reducedMotion = useReducedMotion();
   const { t } = useLocale();
   const [transitioning, setTransitioning] = useState(false);
@@ -63,6 +77,7 @@ export default function MuralExperience({
   );
   const chromeRef = useRef<HTMLDivElement>(null);
   const pathsRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLButtonElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const nodeMapRef = useRef<Map<string, HTMLDivElement>>(new Map());
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
@@ -282,7 +297,15 @@ export default function MuralExperience({
     [canvasConfig.center]
   );
 
-  const { placeAtCover, placeAtCanvas, startDrift, playToCanvas, killDrift } = useCoverTransition({
+  const {
+    placeAtCover,
+    placeAtCanvas,
+    startDrift,
+    playToCanvas,
+    convergeToCenter,
+    expandFromCenter,
+    killDrift,
+  } = useCoverTransition({
     reducedMotion,
     getTargets,
     getCoverPose,
@@ -301,22 +324,42 @@ export default function MuralExperience({
     else nodeMapRef.current.delete(id);
   }, []);
 
-  const motionApiRef = useRef({ placeAtCover, placeAtCanvas, startDrift, killDrift });
-  motionApiRef.current = { placeAtCover, placeAtCanvas, startDrift, killDrift };
+  const motionApiRef = useRef({
+    placeAtCover,
+    placeAtCanvas,
+    startDrift,
+    expandFromCenter,
+    killDrift,
+  });
+  motionApiRef.current = {
+    placeAtCover,
+    placeAtCanvas,
+    startDrift,
+    expandFromCenter,
+    killDrift,
+  };
 
   useLayoutEffect(() => {
     if (hidden || !initialized || !sessionElements) return;
 
     if (mode !== "cover") {
-      motionApiRef.current.placeAtCanvas();
+      // During cover→home brand morph, playToCanvas owns element motion.
+      if (!transitioning) {
+        motionApiRef.current.placeAtCanvas();
+      }
       setPlaced(true);
+      return;
+    }
+
+    // Cover→about / cover→home transitions own motion; do not reset mid-flight.
+    // (Including `transitioning` in deps used to re-enter here and clear the flag.)
+    if (transitioning) {
       return;
     }
 
     motionApiRef.current.killDrift();
     resetView(1);
     setPressed(false);
-    setTransitioning(false);
     openingIdRef.current = null;
     focusingIdRef.current = null;
     setFocusingId(null);
@@ -324,6 +367,59 @@ export default function MuralExperience({
     const chrome = [chromeRef.current, pathsRef.current].filter(
       (node): node is HTMLDivElement => node !== null
     );
+
+    // Pending return: wait for nodes, then claim + expand.
+    // Claim only when starting the timeline so effect re-runs can retry
+    // if cleanup cancelled the wait RAF before expand began.
+    if (shouldAboutReturnExpand() || isAboutReturnExpandActive()) {
+      setPlaced(true);
+      if (chrome.length) {
+        gsap.set(chrome, { opacity: 0, scale: 1, clearProps: "transform" });
+      }
+
+      if (isAboutReturnExpandActive()) {
+        return;
+      }
+
+      let raf = 0;
+      let attempts = 0;
+      const run = () => {
+        if (!nodeMapRef.current.size && attempts < 24) {
+          attempts += 1;
+          raf = requestAnimationFrame(run);
+          return;
+        }
+        if (!beginAboutReturnExpand()) return;
+
+        // Reveal clustered elements under the morph pill, then spread out.
+        const overlay = document.getElementById(ABOUT_MORPH_OVERLAY_ID);
+        if (overlay) {
+          gsap.to(overlay, {
+            opacity: 0,
+            duration: 0.28,
+            delay: 0.06,
+            ease: "power2.out",
+            onComplete: removeAboutMorphOverlay,
+          });
+        }
+        motionApiRef.current.expandFromCenter({
+          onComplete: () => {
+            motionApiRef.current.startDrift();
+            clearAboutReturnExpand();
+            if (chrome.length) {
+              gsap.to(chrome, {
+                opacity: 1,
+                duration: 0.5,
+                ease: "power2.out",
+              });
+            }
+          },
+        });
+      };
+      run();
+      return () => cancelAnimationFrame(raf);
+    }
+
     if (chrome.length) {
       gsap.set(chrome, { opacity: 1, scale: 1, clearProps: "transform" });
     }
@@ -345,6 +441,7 @@ export default function MuralExperience({
     hidden,
     initialized,
     mode,
+    transitioning,
     viewportSize.width,
     viewportSize.height,
     visibleElements.length,
@@ -372,14 +469,145 @@ export default function MuralExperience({
       (node): node is HTMLDivElement => node !== null
     );
 
-    playToCanvas({
-      chrome,
+    const cta = ctaRef.current;
+    if (!cta || reducedMotion) {
+      playToCanvas({
+        chrome,
+        onComplete: () => {
+          setTransitioning(false);
+          onCoverComplete();
+        },
+      });
+      return;
+    }
+
+    const source = cta.getBoundingClientRect();
+    let disperseDone = false;
+    let morphDone = false;
+    const tryFinish = () => {
+      if (!disperseDone || !morphDone) return;
+      setTransitioning(false);
+      onCoverComplete();
+    };
+
+    playJinMarkMorph({
+      source,
+      reducedMotion,
+      fadeChrome: (duration) => {
+        const root = chromeRef.current;
+        if (!root) return;
+        const copy = root.querySelectorAll("[data-cover-copy]");
+        const about = root.querySelectorAll("[data-cover-about]");
+        const labels = root.querySelectorAll("[data-explore-label]");
+        const paths = pathsRef.current;
+
+        gsap.to(gsap.utils.toArray(copy), {
+          opacity: 0,
+          y: 10,
+          duration,
+          ease: "power2.inOut",
+        });
+        gsap.to(gsap.utils.toArray(about), {
+          opacity: 0,
+          y: 10,
+          duration,
+          ease: "power2.inOut",
+        });
+        gsap.to(gsap.utils.toArray(labels), {
+          opacity: 0,
+          duration: Math.min(0.22, duration),
+          ease: "power2.inOut",
+        });
+        gsap.to(cta, {
+          opacity: 0,
+          duration: 0.12,
+          delay: 0.06,
+          ease: "power1.out",
+        });
+        if (paths) {
+          gsap.to(paths, {
+            opacity: 0,
+            duration,
+            ease: "power2.inOut",
+          });
+        }
+      },
+      onDisperse: () => {
+        playToCanvas({
+          chrome: [],
+          onComplete: () => {
+            disperseDone = true;
+            tryFinish();
+          },
+        });
+      },
       onComplete: () => {
-        setTransitioning(false);
-        onCoverComplete();
+        morphDone = true;
+        tryFinish();
       },
     });
-  }, [mode, onCoverComplete, playToCanvas, transitioning]);
+  }, [
+    mode,
+    onCoverComplete,
+    playToCanvas,
+    reducedMotion,
+    transitioning,
+  ]);
+
+  const handleAboutRequest = useCallback(
+    (aboutLink: HTMLAnchorElement) => {
+      if (mode !== "cover" || transitioning) return;
+
+      const source = aboutLink.getBoundingClientRect();
+      storeAboutButtonRect(source);
+      setTransitioning(true);
+      // Clear any leftover start-explore morph layer that could block navigation.
+      document.getElementById("jin-mark-morph-overlay")?.remove();
+
+      const chrome = [chromeRef.current, pathsRef.current].filter(
+        (node): node is HTMLDivElement => node !== null
+      );
+
+      if (reducedMotion) {
+        router.push("/about");
+        return;
+      }
+
+      if (chrome.length) {
+        gsap.to(chrome, {
+          opacity: 0,
+          scale: 0.97,
+          duration: 0.28,
+          ease: "power2.in",
+        });
+      }
+
+      convergeToCenter({
+        onComplete: () => {
+          const overlay = createAboutMorphOverlay({
+            left: source.left,
+            top: source.top,
+            width: source.width,
+            height: source.height,
+          });
+          const target = getAboutCardTargetRect();
+          gsap.to(overlay, {
+            top: target.top,
+            left: target.left,
+            width: target.width,
+            height: target.height,
+            borderRadius: 16,
+            duration: 0.62,
+            ease: "power3.out",
+            onComplete: () => {
+              router.push("/about");
+            },
+          });
+        },
+      });
+    },
+    [convergeToCenter, mode, reducedMotion, router, transitioning]
+  );
 
   const handleSelect = useCallback(
     (id: string, node: HTMLDivElement) => {
@@ -665,9 +893,13 @@ export default function MuralExperience({
               width: canvasConfig.width,
               height: canvasConfig.height,
             }}
-            tilePeriod={mode === "home" ? tilePeriod : null}
-            phase={mode === "home" ? "explore" : "cover"}
-            interactive={mode === "home" && !detailOpen}
+            tilePeriod={
+              mode === "home" && !transitioning ? tilePeriod : null
+            }
+            phase={
+              mode === "home" && !transitioning ? "explore" : "cover"
+            }
+            interactive={mode === "home" && !detailOpen && !transitioning}
             selectedId={selection.selectedId}
             reducedMotion={reducedMotion}
             registerRef={registerRef}
@@ -683,7 +915,9 @@ export default function MuralExperience({
           pressed={pressed}
           transitioning={transitioning}
           onStart={handleStart}
+          onAboutRequest={handleAboutRequest}
           chromeRef={chromeRef}
+          ctaRef={ctaRef}
         />
       )}
 

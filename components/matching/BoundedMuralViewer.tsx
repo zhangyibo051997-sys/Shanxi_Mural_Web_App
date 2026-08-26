@@ -348,6 +348,18 @@ export default function BoundedMuralViewer({
     viewport.addEventListener("pointercancel", onPointerUp);
     viewport.addEventListener("keydown", onKeyDown);
     return () => {
+      for (const pointerId of pointersRef.current.keys()) {
+        try {
+          if (viewport.hasPointerCapture(pointerId)) {
+            viewport.releasePointerCapture(pointerId);
+          }
+        } catch {
+          /* ignore */
+        }
+      }
+      pointersRef.current.clear();
+      dragRef.current = null;
+      pinchRef.current = null;
       viewport.removeEventListener("wheel", onWheel);
       viewport.removeEventListener("pointerdown", onPointerDown);
       viewport.removeEventListener("pointermove", onPointerMove);

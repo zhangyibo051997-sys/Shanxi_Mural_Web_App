@@ -20,6 +20,8 @@ interface FixedNavigationProps {
   onNavClick?: (section: NavSection) => void;
   onLogoClick?: () => void;
   instructionKey?: MessageKey;
+  /** Hide the collection-style top-left back control */
+  hideBack?: boolean;
 }
 
 export default function FixedNavigation({
@@ -27,6 +29,7 @@ export default function FixedNavigation({
   variant = "site",
   onLogoClick,
   instructionKey,
+  hideBack = false,
 }: FixedNavigationProps) {
   const pathname = usePathname();
   const { t } = useLocale();
@@ -43,7 +46,7 @@ export default function FixedNavigation({
     variant === "explore" ||
     variant === "map" ||
     variant === "collection";
-  const showCollectionBack = variant === "collection";
+  const showCollectionBack = variant === "collection" && !hideBack;
 
   if (!isHud) {
     return (

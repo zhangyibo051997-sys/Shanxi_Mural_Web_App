@@ -88,6 +88,7 @@ export default function MatchingBoard({
   );
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
   const didPanRef = useRef(false);
+  const suppressCanvasPointerRef = useRef(false);
   const focusingIdRef = useRef<string | null>(null);
   const selectedMuralIdRef = useRef<string | null>(null);
   const starFlightRef = useRef<HTMLSpanElement>(null);
@@ -192,26 +193,9 @@ export default function MatchingBoard({
     };
   }, [earnedStar, reducedMotion, stage]);
 
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      if (hintVisible) return;
-      if (stage === "mural-selected" || stage === "mural-matching") {
-        setInspectOpen(false);
-        selectedMuralIdRef.current = null;
-        setSelectedMuralId(null);
-        setFocusingId(null);
-        focusingIdRef.current = null;
-        cancelPan();
-        setStage("mural-matching");
-      }
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [cancelPan, hintVisible, stage]);
-
   const selectMural = useCallback(
     (muralId: string, force = false) => {
+      if (!force && suppressCanvasPointerRef.current) return;
       if (!force && (isDragging || didPanRef.current)) return;
       if (!force && selectedMuralId === muralId && !focusingId) {
         setInspectOpen(true);
@@ -269,22 +253,57 @@ export default function MatchingBoard({
     setStage("answer-correct");
   }, [awardFigure, coverElement, figure, selectedMuralId]);
 
-  const dismissIncorrect = useCallback(() => {
+  const beginPointerSuppress = useCallback(() => {
+    suppressCanvasPointerRef.current = true;
+    window.setTimeout(() => {
+      suppressCanvasPointerRef.current = false;
+    }, 320);
+  }, []);
+
+  const clearMatchingSelection = useCallback(() => {
     focusingIdRef.current = null;
     setFocusingId(null);
     selectedMuralIdRef.current = null;
     setInspectOpen(false);
     setSelectedMuralId(null);
     setStage("mural-matching");
+    pointerStartRef.current = null;
+    didPanRef.current = false;
+    cancelPan();
+  }, [cancelPan]);
+
+  const dismissIncorrect = useCallback(() => {
+    beginPointerSuppress();
+    clearMatchingSelection();
     if (wrongAttempts >= 2 && correctMuralId) {
       window.setTimeout(() => {
         selectMural(correctMuralId, true);
       }, 50);
     }
-  }, [correctMuralId, selectMural, wrongAttempts]);
+  }, [
+    beginPointerSuppress,
+    clearMatchingSelection,
+    correctMuralId,
+    selectMural,
+    wrongAttempts,
+  ]);
+
+  const dismissCorrect = useCallback(() => {
+    beginPointerSuppress();
+    clearMatchingSelection();
+  }, [beginPointerSuppress, clearMatchingSelection]);
+
+  const closeInspectWithoutChoice = useCallback(() => {
+    beginPointerSuppress();
+    clearMatchingSelection();
+  }, [beginPointerSuppress, clearMatchingSelection]);
 
   const clearSelectionFromCanvas = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
+      if (suppressCanvasPointerRef.current) {
+        pointerStartRef.current = null;
+        return;
+      }
       const start = pointerStartRef.current;
       pointerStartRef.current = null;
       if (!start) return;
@@ -292,16 +311,26 @@ export default function MatchingBoard({
         return;
       const target = event.target as HTMLElement;
       if (target.closest("[data-mural-option]")) return;
-      focusingIdRef.current = null;
-      setFocusingId(null);
-      cancelPan();
-      selectedMuralIdRef.current = null;
-      setInspectOpen(false);
-      setSelectedMuralId(null);
-      setStage("mural-matching");
+      clearMatchingSelection();
     },
-    [cancelPan]
+    [clearMatchingSelection]
   );
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      if (hintVisible) return;
+      if (
+        inspectOpen ||
+        stage === "mural-selected" ||
+        stage === "mural-matching"
+      ) {
+        clearMatchingSelection();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [clearMatchingSelection, hintVisible, inspectOpen, stage]);
 
   useEffect(() => {
     const node = canvasRef.current;
@@ -317,7 +346,11 @@ export default function MatchingBoard({
       {!hideCards ? (
         <CanvasViewControls
           onBack={
-            inspectOpen || stage === "mural-detail" ? undefined : onReturnHome
+            stage === "mural-detail"
+              ? undefined
+              : inspectOpen
+                ? closeInspectWithoutChoice
+                : onReturnHome
           }
           backLabel={t("match.reselect")}
           backPlacement="top-left"
@@ -397,7 +430,7 @@ export default function MatchingBoard({
             mural={selectedMural}
             isMobile={isMobile}
             onConfirm={submitAnswer}
-            onClose={() => setInspectOpen(false)}
+            onClose={closeInspectWithoutChoice}
             onOpenTemple={onOpenTemple}
           />
         )}
@@ -418,7 +451,7 @@ export default function MatchingBoard({
           result="correct"
           earnedStar={earnedStar}
           mural={selectedMural}
-          onDismiss={() => undefined}
+          onDismiss={dismissCorrect}
           onLearnMore={() => setStage("mural-detail")}
           onChooseAnother={onReturnHome}
         />

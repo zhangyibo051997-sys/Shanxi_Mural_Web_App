@@ -59,6 +59,158 @@ export function useCoverTransition({
     });
   }, []);
 
+  const convergeToCenter = useCallback(
+    ({
+      onComplete,
+    }: {
+      onComplete?: () => void;
+    } = {}) => {
+      killDrift();
+      const targets = getTargets().filter(({ id }) => {
+        const element = getElement(id);
+        return element?.showOnCover !== false;
+      });
+      const center = getCanvasCenter();
+
+      if (!targets.length || reducedMotion) {
+        targets.forEach(({ el }) => {
+          gsap.set(el, {
+            x: center.x,
+            y: center.y,
+            opacity: 0.25,
+          });
+        });
+        onComplete?.();
+        return;
+      }
+
+      timelineRef.current?.kill();
+      const timeline = gsap.timeline({ onComplete });
+      timelineRef.current = timeline;
+
+      targets.forEach(({ el }, index) => {
+        const jitterX = ((index * 37) % 61) - 30;
+        const jitterY = ((index * 53) % 71) - 35;
+        timeline.to(
+          el,
+          {
+            x: center.x + jitterX,
+            y: center.y + jitterY,
+            scale: Number(gsap.getProperty(el, "scale")) * 0.72,
+            opacity: 0.22,
+            duration: 0.42,
+            ease: "power2.in",
+          },
+          index * 0.012
+        );
+      });
+    },
+    [getCanvasCenter, getElement, getTargets, killDrift, reducedMotion]
+  );
+
+  const expandFromCenter = useCallback(
+    ({
+      onComplete,
+    }: {
+      onComplete?: () => void;
+    } = {}) => {
+      killDrift();
+      const targets = getTargets();
+      const center = getCanvasCenter();
+      const viewport = getViewport();
+      const occupied: { x: number; y: number; width: number; height: number }[] =
+        [];
+
+      if (!targets.length) {
+        onComplete?.();
+        return;
+      }
+
+      const destinations = new Map<
+        string,
+        { x: number; y: number; scale: number; rotation: number }
+      >();
+
+      targets.forEach(({ id, el }) => {
+        const element = getElement(id);
+        const pose = getCoverPose(id);
+        if (!pose || !element || element.showOnCover === false) {
+          gsap.set(el, { opacity: 0 });
+          return;
+        }
+        const width = getCoverWidth(element, viewport.width);
+        const height = width / element.coverPosition.aspectRatio;
+        const point =
+          pickCoverCanvasPoint({ width, height }, occupied, viewport, center) ??
+          pose;
+        occupied.push({ x: point.x, y: point.y, width, height });
+        destinations.set(id, {
+          x: point.x,
+          y: point.y,
+          scale: pose.scale,
+          rotation: pose.rotation,
+        });
+        gsap.set(el, {
+          x: center.x,
+          y: center.y,
+          scale: pose.scale * 0.55,
+          rotation: pose.rotation,
+          opacity: 0.55,
+          transformOrigin: "0 0",
+        });
+      });
+
+      if (reducedMotion) {
+        destinations.forEach((pose, id) => {
+          const target = targets.find((item) => item.id === id);
+          if (!target) return;
+          gsap.set(target.el, {
+            x: pose.x,
+            y: pose.y,
+            scale: pose.scale,
+            rotation: pose.rotation,
+            opacity: 1,
+          });
+        });
+        onComplete?.();
+        return;
+      }
+
+      timelineRef.current?.kill();
+      const timeline = gsap.timeline({ onComplete });
+      timelineRef.current = timeline;
+
+      let index = 0;
+      destinations.forEach((pose, id) => {
+        const target = targets.find((item) => item.id === id);
+        if (!target) return;
+        timeline.to(
+          target.el,
+          {
+            x: pose.x,
+            y: pose.y,
+            scale: pose.scale,
+            rotation: pose.rotation,
+            opacity: 1,
+            duration: 0.7,
+            ease: "power3.out",
+          },
+          0.04 + index * 0.014
+        );
+        index += 1;
+      });
+    },
+    [
+      getCanvasCenter,
+      getCoverPose,
+      getElement,
+      getTargets,
+      getViewport,
+      killDrift,
+      reducedMotion,
+    ]
+  );
+
   const placeAtCover = useCallback(() => {
     const targets = getTargets();
     const viewport = getViewport();
@@ -338,6 +490,8 @@ export function useCoverTransition({
     placeAtCanvas,
     startDrift,
     playToCanvas,
+    convergeToCenter,
+    expandFromCenter,
     killDrift,
   };
 }

@@ -13,6 +13,7 @@ export default function NavMark({ onClick, href = "/" }: NavMarkProps) {
   const mark = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
+      data-nav-mark=""
       src="/images/Jin_logo.png"
       alt={t("brand.logoAlt")}
       width={36}

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale } from "@/components/i18n/LocaleProvider";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { postcardLogoSrc } from "@/utils/postcardExport";
+import { postcardBackSrc } from "@/utils/postcardExport";
 
 const REST_X = 8;
 const REST_Y = -18;
@@ -116,6 +116,7 @@ export default function PostcardStage({
 
   const rx = reducedMotion ? 0 : tilt.x;
   const ry = reducedMotion ? 0 : tilt.y;
+  const isPortrait = ratio < 1;
 
   return (
     <div className="flex h-full min-h-0 w-full flex-col">
@@ -186,32 +187,37 @@ export default function PostcardStage({
             />
           </div>
 
-          <div className="postcard-3d-face postcard-3d-face--back" aria-hidden="true">
-            <div className="flex h-full w-full flex-col bg-[#efe8dc] px-4 py-4 md:px-5 md:py-5">
-              <div className="flex items-start justify-between gap-3">
-                <p className="type-meta text-gold">{t("postcard.backNote")}</p>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={postcardLogoSrc(locale)}
-                  alt=""
-                  className="h-8 w-auto max-w-[42%] object-contain opacity-90"
-                />
-              </div>
-              <div className="mt-4 min-h-0 flex-1 border-t border-dashed border-ink/20 pt-3">
-                <p className="type-card text-ink">{title}</p>
-                {dateLabel ? (
-                  <p className="type-caption mt-2 text-ink/55">{dateLabel}</p>
-                ) : null}
-                <div className="mt-4 space-y-2.5" aria-hidden="true">
-                  <span className="block h-px bg-ink/15" />
-                  <span className="block h-px bg-ink/15" />
-                  <span className="block h-px w-2/3 bg-ink/15" />
-                </div>
-              </div>
-              <p className="type-caption mt-3 text-ink/45">
-                {t("brand.siteName")}
-              </p>
-            </div>
+          <div
+            className={`postcard-3d-face postcard-3d-face--back${
+              isPortrait ? " postcard-3d-face--back-portrait" : ""
+            }`}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              key={postcardBackSrc(locale)}
+              src={postcardBackSrc(locale)}
+              alt=""
+              draggable={false}
+              className="pointer-events-none select-none object-contain"
+              style={
+                isPortrait && box.width && box.height
+                  ? {
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      // Landscape template → portrait face: swap axes then rotate.
+                      width: box.height,
+                      height: box.width,
+                      maxWidth: "none",
+                      transform: "translate(-50%, -50%) rotate(90deg)",
+                    }
+                  : undefined
+              }
+            />
+            <span className="sr-only">
+              {title}
+              {dateLabel ? ` · ${dateLabel}` : ""}
+            </span>
           </div>
         </div>
       </div>
